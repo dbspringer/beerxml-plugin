@@ -1,4 +1,4 @@
-=== Drafts for Friends ===
+=== BeerXML Shortcode ===
 Contributors: derekspringer
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml
