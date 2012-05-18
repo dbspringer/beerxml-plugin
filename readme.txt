@@ -19,8 +19,6 @@ A shortcode for linking to beer recipes.
 
 == Frequently Asked Questions ==
 
-= What are you assuming? =
-
 TODO
 
 == Screenshots ==
