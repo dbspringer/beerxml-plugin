@@ -6,7 +6,7 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 }
 
 // Delete option from the options table
-delete_option( 'beer-xml-shortcode-options' );
+delete_option( 'beerxml-shortcode-options' );
 
 // Remove and additional options and custom tables
 // TODO
