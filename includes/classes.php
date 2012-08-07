@@ -5,8 +5,15 @@ class BeerXML {
 	public $recipes = array();
 
 	function __construct( $xml_loc ) {
+		if ( ! url_exists( $xml_loc ) )
+			return;
+
+		libxml_use_internal_errors(true);
 		$xml = file_get_contents( $xml_loc );
-		$xrecipes = new SimpleXMLElement( $xml );
+		$xrecipes = simplexml_load_string( $xml );
+		if ( ! $xrecipes )
+			return;
+
 		foreach ( $xrecipes->RECIPE as $recipe ) {
 			$this->recipes[] = new BeerXML_Recipe( $recipe );
 		}
@@ -57,24 +64,34 @@ class BeerXML_Recipe {
 	function __construct( $recipe ) {
 		$skip = array( 'HOPS', 'FERMENTABLES', 'MISCS', 'YEASTS', 'WATERS' );
 
-		foreach ( $recipe->HOPS->HOP as $hop ) {
-			$this->hops[] = new BeerXML_Hop( $hop );
+		if( $recipe->HOPS->HOP ) {
+			foreach ( $recipe->HOPS->HOP as $hop ) {
+				$this->hops[] = new BeerXML_Hop( $hop );
+			}
 		}
 
-		foreach ( $recipe->FERMENTABLES->FERMENTABLE as $fermentable ) {
-			$this->fermentables[] = new BeerXML_Fermentable( $fermentable );
+		if( $recipe->FERMENTABLES->FERMENTABLE ) {
+			foreach ( $recipe->FERMENTABLES->FERMENTABLE as $fermentable ) {
+				$this->fermentables[] = new BeerXML_Fermentable( $fermentable );
+			}
 		}
 
-		foreach ( $recipe->MISCS->MISC as $misc ) {
-			$this->miscs[] = new BeerXML_Misc( $misc );
+		if( $recipe->MISCS->MISC ) {
+			foreach ( $recipe->MISCS->MISC as $misc ) {
+				$this->miscs[] = new BeerXML_Misc( $misc );
+			}
 		}
 
-		foreach ( $recipe->YEASTS->YEAST as $yeast ) {
-			$this->yeasts[] = new BeerXML_Yeast( $yeast );
+		if( $recipe->YEASTS->YEAST ) {
+			foreach ( $recipe->YEASTS->YEAST as $yeast ) {
+				$this->yeasts[] = new BeerXML_Yeast( $yeast );
+			}
 		}
 
-		foreach ( $recipe->WATERS->WATER as $water ) {
-			$this->waters[] = new BeerXML_Water( $water );
+		if( $recipe->WATERS->WATER ) {
+			foreach ( $recipe->WATERS->WATER as $water ) {
+				$this->waters[] = new BeerXML_Water( $water );
+			}
 		}
 
 		foreach ( $recipe as $k => $v ) {
@@ -314,8 +331,10 @@ class BeerXML_Mash_Profile {
 	public $equip_adjust;
 
 	function __construct( $mash_profile ) {
-		foreach ( $mash_profile->MASH_STEPS->MASH_STEP as $mash_step ) {
-			$this->mash_steps[] = new BeerXML_Mash_Step( $mash_step );
+		if ( $mash_profile->MASH_STEPS->MASH_STEP ) {
+			foreach ( $mash_profile->MASH_STEPS->MASH_STEP as $mash_step ) {
+				$this->mash_steps[] = new BeerXML_Mash_Step( $mash_step );
+			}
 		}
 
 		foreach ( $mash_profile as $k => $v ) {
@@ -324,4 +343,9 @@ class BeerXML_Mash_Profile {
 			}
 		}
 	}
+}
+
+function url_exists( $url ) {
+	$file_headers = @get_headers( $url );
+	return 'HTTP/1.1 404 Not Found' != $file_headers[0];
 }
