@@ -14,7 +14,17 @@ class BeerXMLShortcode {
 	 * A simple call to init when constructed
 	 */
 	function __construct() {
+		register_activation_hook( __FILE__, array( $this, 'install' ) );
 		add_action( 'init', array( $this, 'init' ) );
+	}
+
+	/**
+	 * Do all the plugin activation setup
+	 */
+	function install() {
+		if( ! get_option( 'beerxml_shortcode_recipes' ) ) {
+			add_option( 'beerxml_shortcode_recipes', array(), '', 'no' );
+		}
 	}
 
 	/**
@@ -46,6 +56,8 @@ class BeerXMLShortcode {
 	 * @return string HTML to be inserted in shortcode's place
 	 */
 	function beerxml_shortcode( $atts ) {
+		global $post;
+
 		if ( ! is_array( $atts ) ) {
 			return '<!-- BeerXML shortcode passed invalid attributes -->';
 		}
@@ -63,7 +75,18 @@ class BeerXMLShortcode {
 		}
 
 		$recipe = esc_url_raw( $recipe );
-		$beer_xml = new BeerXML( $recipe );
+		$recipe_filename = pathinfo( $recipe, PATHINFO_FILENAME );
+		$recipe_id = "{$post->ID}_$recipe_filename";
+		$beer_xml = get_option( "beerxml_shortcode_recipe-$recipe_id" );
+		if ( ! $beer_xml ) {
+			$beer_xml = new BeerXML( $recipe );
+			if ( $beer_xml->recipes ) {
+				$recipes = get_option( 'beerxml_shortcode_recipes', array() );
+				$recipes[] = $recipe_id;
+				update_option( 'beerxml_shortcode_recipes', $recipes );
+				add_option( "beerxml_shortcode_recipe-$recipe_id", $beer_xml );
+			}
+		}
 
 		if ( ! $beer_xml->recipes ) {
 			return '<!-- Error parsing BeerXML document -->';
