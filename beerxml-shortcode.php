@@ -89,6 +89,47 @@ class BeerXMLShortcode {
 			return '<!-- Error parsing BeerXML document -->';
 		}
 
+		if ( $metric ) {
+			$beer_xml->recipes[0]->batch_size = round( $beer_xml->recipes[0]->batch_size, 1 );
+			$t_vol = __( 'L', 'beerxml-shortcode' );
+		} else {
+			$beer_xml->recipes[0]->batch_size = round( $beer_xml->recipes[0]->batch_size * 0.264172, 1 );
+			$t_vol = __( 'gal', 'beerxml-shortcode' );
+		}
+
+		$t_details = __( 'Recipe Details', 'beerxml-shortcode' );
+		$t_size    = __( 'Batch Size', 'beerxml-shortcode' );
+		$t_ibu     = __( 'IBU', 'beerxml-shortcode' );
+		$t_srm     = __( 'SRM', 'beerxml-shortcode' );
+		$t_og      = __( 'Est. OG', 'beerxml-shortcode' );
+		$t_fg      = __( 'Est. FG', 'beerxml-shortcode' );
+		$t_abv     = __( 'ABV', 'beerxml-shortcode' );
+		$details = <<<DETAILS
+		<div id='details'>
+			<h3>$t_details</h3>
+			<table>
+				<thead>
+					<tr>
+						<th>$t_size</th>
+						<th>$t_ibu</th>
+						<th>$t_srm</th>
+						<th>$t_og</th>
+						<th>$t_fg</th>
+						<th>$t_abv</th>
+					</tr>
+					<tr>
+						<td>{$beer_xml->recipes[0]->batch_size} $t_vol</td>
+						<td>{$beer_xml->recipes[0]->ibu}</td>
+						<td>{$beer_xml->recipes[0]->est_color}</td>
+						<td>{$beer_xml->recipes[0]->est_og}</td>
+						<td>{$beer_xml->recipes[0]->est_fg}</td>
+						<td>{$beer_xml->recipes[0]->est_abv}</td>
+					</tr>
+				</thead>
+			</table>
+		</div>
+DETAILS;
+
 		$fermentables = '';
 		foreach ( $beer_xml->recipes[0]->fermentables as $fermentable ) {
 			$fermentables .= $this->build_fermentable( $fermentable, $metric );
@@ -99,7 +140,7 @@ class BeerXMLShortcode {
 		$t_amount = __( 'Amount', 'beerxml-shortcode' );
 		$fermentables = <<<FERMENTABLES
 		<div id='fermentables'>
-			<h2>$t_fermentables</h2>
+			<h3>$t_fermentables</h3>
 			<table>
 				<thead>
 					<tr>
@@ -124,7 +165,7 @@ FERMENTABLES;
 		$t_alpha = __( 'Alpha %', 'beerxml-shortcode' );
 		$hops = <<<HOPS
 		<div id='hops'>
-			<h2>$t_hops</h2>
+			<h3>$t_hops</h3>
 			<table>
 				<thead>
 					<tr>
@@ -152,7 +193,7 @@ HOPS;
 		$t_temperature = __( 'Temperature', 'beerxml-shortcode' );
 		$yeasts = <<<YEASTS
 		<div id='yeasts'>
-			<h2>$t_yeast</h2>
+			<h3>$t_yeast</h3>
 			<table>
 				<thead>
 					<tr>
@@ -169,6 +210,7 @@ YEASTS;
 
 		$html = <<<HTML
 		<div id='beerxml-recipe'>
+			$details
 			$fermentables
 			$hops
 			$yeasts
@@ -178,7 +220,7 @@ HTML;
 		return $html;
 	}
 
-	function build_fermentable( $fermentable, $metric = false ) {
+	static function build_fermentable( $fermentable, $metric = false ) {
 		if ( $metric ) {
 			$fermentable->amount = round( $fermentable->amount, 3 );
 			$t_weight = __( 'kg', 'beerxml-shortcode' );
@@ -195,7 +237,7 @@ HTML;
 FERMENTABLE;
 	}
 
-	function build_hop( $hop, $metric = false ) {
+	static function build_hop( $hop, $metric = false ) {
 		if ( $metric ) {
 			$hop->amount = round( $hop->amount * 1000, 1 );
 			$t_weight = __( 'g', 'beerxml-shortcode' );
@@ -226,7 +268,7 @@ FERMENTABLE;
 FERMENTABLE;
 	}
 
-	function build_yeast( $yeast, $metric = false ) {
+	static function build_yeast( $yeast, $metric = false ) {
 		if ( $metric ) {
 			$yeast->min_temperature = round( $yeast->min_temperature, 2 );
 			$yeast->max_temperature = round( $yeast->max_temperature, 2 );
@@ -241,7 +283,7 @@ FERMENTABLE;
 
 		return <<<YEAST
 		<tr>
-			<td>$yeast->name</td>
+			<td>$yeast->name ({$yeast->product_id})</td>
 			<td>$yeast->laboratory</td>
 			<td>{$yeast->attenuation}%</td>
 			<td>{$yeast->min_temperature}°$t_temp - {$yeast->max_temperature}°$t_temp</td>

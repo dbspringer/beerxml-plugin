@@ -60,6 +60,26 @@ class BeerXML_Recipe {
 	public $carbonation_temp;
 	public $priming_sugar_equiv;
 	public $keg_priming_factor;
+	public $est_og;
+	public $est_fg;
+	public $est_color;
+	public $ibu;
+	public $ibus;
+	public $ibu_method;
+	public $est_abv;
+	public $abv;
+	public $actual_efficiency;
+	public $calories;
+	public $display_batch_size;
+	public $display_boil_size;
+	public $display_og;
+	public $display_fg;
+	public $display_primary_temp;
+	public $display_secondary_temp;
+	public $display_tertiary_temp;
+	public $display_age_temp;
+	public $carbonation_used;
+	public $display_carb_temp;
 
 	function __construct( $recipe ) {
 		$skip = array( 'HOPS', 'FERMENTABLES', 'MISCS', 'YEASTS', 'WATERS' );
