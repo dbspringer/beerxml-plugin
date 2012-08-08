@@ -97,8 +97,11 @@ class BeerXMLShortcode {
 			$t_vol = __( 'gal', 'beerxml-shortcode' );
 		}
 
+		$btime = round( $beer_xml->recipes[0]->boil_time );
 		$t_details = __( 'Recipe Details', 'beerxml-shortcode' );
 		$t_size    = __( 'Batch Size', 'beerxml-shortcode' );
+		$t_boil    = __( 'Boil Time', 'beerxml-shortcode' );
+		$t_time    = __( 'min', 'beerxml-shortcode' );
 		$t_ibu     = __( 'IBU', 'beerxml-shortcode' );
 		$t_srm     = __( 'SRM', 'beerxml-shortcode' );
 		$t_og      = __( 'Est. OG', 'beerxml-shortcode' );
@@ -111,6 +114,7 @@ class BeerXMLShortcode {
 				<thead>
 					<tr>
 						<th>$t_size</th>
+						<th>$t_boil</th>
 						<th>$t_ibu</th>
 						<th>$t_srm</th>
 						<th>$t_og</th>
@@ -119,6 +123,7 @@ class BeerXMLShortcode {
 					</tr>
 					<tr>
 						<td>{$beer_xml->recipes[0]->batch_size} $t_vol</td>
+						<td>$btime $t_time</td>
 						<td>{$beer_xml->recipes[0]->ibu}</td>
 						<td>{$beer_xml->recipes[0]->est_color}</td>
 						<td>{$beer_xml->recipes[0]->est_og}</td>
