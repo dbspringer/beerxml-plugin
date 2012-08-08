@@ -245,6 +245,10 @@ YEASTS;
 		</div>
 HTML;
 
+		if ( $cache && $beer_xml->recipes ) {
+			set_transient( $recipe_id, $html, $cache );
+		}
+
 		return $html;
 	}
 
