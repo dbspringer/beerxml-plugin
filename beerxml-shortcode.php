@@ -5,9 +5,13 @@ Plugin URI: http://automattic.com/
 Description: Automatically insert/display beer recipes by linking to a BeerXML document.
 Author: Derek Springer
 Version: 0.1
-Author URI: http://flavors.me/derekspringer
+Author URI: http://12inchpianist.com
+License: GPL2
 */
 
+/**
+ * Class wrapper for BeerXML shortcode
+ */
 class BeerXMLShortcode {
 
 	/**
@@ -41,8 +45,14 @@ class BeerXMLShortcode {
 	}
 
 	/**
-	 * [beer_xml_shortcode description]
+	 * Shortcode for BeerXML
+	 * [beerxml recipe=http://example.com/wp-content/uploads/2012/08/bowie-brown.xml cache=10800 metric=true]
+	 *
 	 * @param  array $atts shortcode attributes
+	 *                     recipe - URL to BeerXML document
+	 *                     cache - number of seconds to cache recipe
+	 *                     metric - true  -> use metric values
+	 *                              false -> use imperial values
 	 * @return string HTML to be inserted in shortcode's place
 	 */
 	function beerxml_shortcode( $atts ) {
@@ -71,7 +81,7 @@ class BeerXMLShortcode {
 		$recipe_id = "beerxml_shortcode_recipe-{$post->ID}_$recipe_filename";
 
 		$cache  = intval( esc_attr( $cache ) );
-		if ( -1 == $cache ) {
+		if ( -1 == $cache ) { // clear cache if set to -1
 			delete_transient( $recipe_id );
 			$cache = 0;
 		}
@@ -80,15 +90,18 @@ class BeerXMLShortcode {
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
 			$beer_xml = new BeerXML( $recipe );
-			if ( $cache && $beer_xml->recipes ) {
-				set_transient( $recipe_id, $beer_xml, $cache );
-			}
+		} else {
+			// result was in cache, just use that
+			return $beer_xml;
 		}
 
-		if ( ! $beer_xml->recipes ) {
+		if ( ! $beer_xml->recipes ) { // empty recipe
 			return '<!-- Error parsing BeerXML document -->';
 		}
 
+		/***************
+		 * Recipe Details
+		 **************/
 		if ( $metric ) {
 			$beer_xml->recipes[0]->batch_size = round( $beer_xml->recipes[0]->batch_size, 1 );
 			$t_vol = __( 'L', 'beerxml-shortcode' );
@@ -135,6 +148,9 @@ class BeerXMLShortcode {
 		</div>
 DETAILS;
 
+		/***************
+		 * Fermentables Details
+		 **************/
 		$fermentables = '';
 		foreach ( $beer_xml->recipes[0]->fermentables as $fermentable ) {
 			$fermentables .= $this->build_fermentable( $fermentable, $metric );
@@ -158,6 +174,9 @@ DETAILS;
 		</div>
 FERMENTABLES;
 
+		/***************
+		 * Hops Details
+		 **************/
 		$hops = '';
 		foreach ( $beer_xml->recipes[0]->hops as $hop ) {
 			$hops .= $this->build_hop( $hop, $metric );
@@ -187,6 +206,9 @@ FERMENTABLES;
 		</div>
 HOPS;
 
+		/***************
+		 * Yeast Details
+		 **************/
 		$yeasts = '';
 		foreach ( $beer_xml->recipes[0]->yeasts as $yeast ) {
 			$yeasts .= $this->build_yeast( $yeast, $metric );
@@ -213,6 +235,7 @@ HOPS;
 		</div>
 YEASTS;
 
+		// stick 'em all together
 		$html = <<<HTML
 		<div id='beerxml-recipe'>
 			$details
@@ -225,6 +248,12 @@ HTML;
 		return $html;
 	}
 
+	/**
+	 * Build fermentable row
+	 * @param  BeerXML_Fermentable  $fermentable fermentable to display
+	 * @param  boolean $metric      true to display values in metric
+	 * @return string               table row containing fermentable details
+	 */
 	static function build_fermentable( $fermentable, $metric = false ) {
 		if ( $metric ) {
 			$fermentable->amount = round( $fermentable->amount, 3 );
@@ -242,6 +271,12 @@ HTML;
 FERMENTABLE;
 	}
 
+	/**
+	 * Build hop row
+	 * @param  BeerXML_Hop          $hop hop to display
+	 * @param  boolean $metric      true to display values in metric
+	 * @return string               table row containing hop details
+	 */
 	static function build_hop( $hop, $metric = false ) {
 		if ( $metric ) {
 			$hop->amount = round( $hop->amount * 1000, 1 );
@@ -273,6 +308,12 @@ FERMENTABLE;
 FERMENTABLE;
 	}
 
+	/**
+	 * Build yeast row
+	 * @param  BeerXML_Yeast        $yeast yeast to display
+	 * @param  boolean $metric      true to display values in metric
+	 * @return string               table row containing yeast details
+	 */
 	static function build_yeast( $yeast, $metric = false ) {
 		if ( $metric ) {
 			$yeast->min_temperature = round( $yeast->min_temperature, 2 );
