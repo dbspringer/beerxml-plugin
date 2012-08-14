@@ -40,3 +40,12 @@ Please note: metric and cache are optional values and have the following default
 = 0.1 =
 
 * First cut, allows basic display of details, fermentables, hops, and yeast information in U.S. or metric units.
+
+== TODO ==
+
+Here's some stuff that would be nice to add in the near future:
+
+* Custom CSS definition.
+* Auto unit select.
+* Quick unit select.
+* BeerXML documents added to list of mime-types supported by the builtin uploader.
