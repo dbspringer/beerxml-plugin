@@ -52,7 +52,7 @@ class BeerXMLShortcode {
 	 *                     recipe - URL to BeerXML document
 	 *                     cache - number of seconds to cache recipe
 	 *                     metric - true  -> use metric values
-	 *                              false -> use imperial values
+	 *                              false -> use U.S. values
 	 * @return string HTML to be inserted in shortcode's place
 	 */
 	function beerxml_shortcode( $atts ) {
@@ -68,8 +68,8 @@ class BeerXMLShortcode {
 
 		extract( shortcode_atts( array(
 			'recipe' => null,
-			'cache'  => 60*60*12,
-			'metric' => false
+			'cache'  => 60*60*12, // cache for 12 hours
+			'metric' => false // U.S. measurements
 		), $atts ) );
 
 		if ( ! isset( $recipe ) ) {
@@ -121,7 +121,7 @@ class BeerXMLShortcode {
 		$t_fg      = __( 'Est. FG', 'beerxml-shortcode' );
 		$t_abv     = __( 'ABV', 'beerxml-shortcode' );
 		$details = <<<DETAILS
-		<div id='details'>
+		<div class='beerxml-details'>
 			<h3>$t_details</h3>
 			<table>
 				<thead>
@@ -160,7 +160,7 @@ DETAILS;
 		$t_name = __( 'Name', 'beerxml-shortcode' );
 		$t_amount = __( 'Amount', 'beerxml-shortcode' );
 		$fermentables = <<<FERMENTABLES
-		<div id='fermentables'>
+		<div class='beerxml-fermentables'>
 			<h3>$t_fermentables</h3>
 			<table>
 				<thead>
@@ -188,7 +188,7 @@ FERMENTABLES;
 		$t_form  = __( 'Form', 'beerxml-shortcode' );
 		$t_alpha = __( 'Alpha %', 'beerxml-shortcode' );
 		$hops = <<<HOPS
-		<div id='hops'>
+		<div class='beerxml-hops'>
 			<h3>$t_hops</h3>
 			<table>
 				<thead>
@@ -219,7 +219,7 @@ HOPS;
 		$t_attenuation = __( 'Attenuation', 'beerxml-shortcode' );
 		$t_temperature = __( 'Temperature', 'beerxml-shortcode' );
 		$yeasts = <<<YEASTS
-		<div id='yeasts'>
+		<div class='beerxml-yeasts'>
 			<h3>$t_yeast</h3>
 			<table>
 				<thead>
@@ -237,7 +237,7 @@ YEASTS;
 
 		// stick 'em all together
 		$html = <<<HTML
-		<div id='beerxml-recipe'>
+		<div class='beerxml-recipe'>
 			$details
 			$fermentables
 			$hops
