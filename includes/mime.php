@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * Add text/xml to acceptable mime types so users can upload BeerXML files
+ */
+class BeerXML_Mime {
+
+	/**
+	 * Add a filter to upload_mimes
+	 */
+	function __construct() {
+		add_filter( 'upload_mimes', array( $this, 'beerxml_mimes' ) );
+	}
+
+	/**
+	 * Add mimes required for the BeerXML documents (currently just text/xml)
+	 * @param  array $mimes mime types to filter
+	 * @return array new array of acceptable mimes
+	 */
+	function beerxml_mimes( $mimes ) {
+		return array_merge( $mimes, array( 'xml' => 'text/xml' ) );
+	}
+}
+
+new BeerXML_Mime();

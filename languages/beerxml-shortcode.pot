@@ -1,0 +1,156 @@
+# Copyright (C) 2012 BeerXML Shortcode
+# This file is distributed under the same license as the BeerXML Shortcode package.
+msgid ""
+msgstr ""
+"Project-Id-Version: BeerXML Shortcode 0.1\n"
+"Report-Msgid-Bugs-To: http://wordpress.org/tag/beerxml-shortcode\n"
+"POT-Creation-Date: 2012-08-16 18:39:19+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+
+#: beerxml-shortcode.php:107
+msgid "L"
+msgstr ""
+
+#: beerxml-shortcode.php:110
+msgid "gal"
+msgstr ""
+
+#: beerxml-shortcode.php:114
+msgid "Recipe Details"
+msgstr ""
+
+#: beerxml-shortcode.php:115
+msgid "Batch Size"
+msgstr ""
+
+#: beerxml-shortcode.php:116
+msgid "Boil Time"
+msgstr ""
+
+#: beerxml-shortcode.php:117 beerxml-shortcode.php:298
+msgid "min"
+msgstr ""
+
+#: beerxml-shortcode.php:118
+msgid "IBU"
+msgstr ""
+
+#: beerxml-shortcode.php:119
+msgid "SRM"
+msgstr ""
+
+#: beerxml-shortcode.php:120
+msgid "Est. OG"
+msgstr ""
+
+#: beerxml-shortcode.php:121
+msgid "Est. FG"
+msgstr ""
+
+#: beerxml-shortcode.php:122
+msgid "ABV"
+msgstr ""
+
+#: beerxml-shortcode.php:159
+msgid "Fermentables"
+msgstr ""
+
+#: beerxml-shortcode.php:160
+msgid "Name"
+msgstr ""
+
+#: beerxml-shortcode.php:161
+msgid "Amount"
+msgstr ""
+
+#: beerxml-shortcode.php:185
+msgid "Hops"
+msgstr ""
+
+#: beerxml-shortcode.php:186
+msgid "Time"
+msgstr ""
+
+#: beerxml-shortcode.php:187
+msgid "Use"
+msgstr ""
+
+#: beerxml-shortcode.php:188
+msgid "Form"
+msgstr ""
+
+#: beerxml-shortcode.php:189
+msgid "Alpha %"
+msgstr ""
+
+#: beerxml-shortcode.php:217
+msgid "Yeast"
+msgstr ""
+
+#: beerxml-shortcode.php:218
+msgid "Lab"
+msgstr ""
+
+#: beerxml-shortcode.php:219
+msgid "Attenuation"
+msgstr ""
+
+#: beerxml-shortcode.php:220
+msgid "Temperature"
+msgstr ""
+
+#: beerxml-shortcode.php:264
+msgid "kg"
+msgstr ""
+
+#: beerxml-shortcode.php:267
+msgid "lbs"
+msgstr ""
+
+#: beerxml-shortcode.php:287
+msgid "g"
+msgstr ""
+
+#: beerxml-shortcode.php:290
+msgid "oz"
+msgstr ""
+
+#: beerxml-shortcode.php:295
+msgid "day"
+msgid_plural "days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: beerxml-shortcode.php:325
+msgid "C"
+msgstr ""
+
+#: beerxml-shortcode.php:329
+msgid "F"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "BeerXML Shortcode"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "http://automattic.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Automatically insert/display beer recipes by linking to a BeerXML document."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Derek Springer"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://12inchpianist.com"
+msgstr ""
