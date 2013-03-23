@@ -37,6 +37,10 @@ Please note: metric and cache are optional values and have the following default
 
 == Changelog ==
 
+= 0.1.2b2 =
+
+* Testing beta release procedure.
+
 = 0.1.1 =
 
 * Added text/xml as acceptable mime type for BeerXML document self-hosting.
