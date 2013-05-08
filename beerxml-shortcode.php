@@ -4,7 +4,7 @@ Plugin Name: BeerXML Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert/display beer recipes by linking to a BeerXML document.
 Author: Derek Springer
-Version: 0.1.2b2
+Version: 0.2
 Author URI: http://12inchpianist.com
 License: GPL2
 */
@@ -31,18 +31,25 @@ class BeerXML_Shortcode {
 			false,
 			dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-		if ( ! defined( 'BEERXML_URL' ) ) {
+		if ( ! defined( 'BEERXML_URL' ) )
 			define( 'BEERXML_URL', plugin_dir_url( __FILE__ ) );
-		}
 
-		if ( ! defined( 'BEERXML_PATH' ) ) {
+		if ( ! defined( 'BEERXML_PATH' ) )
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
-		}
 
 		require_once( BEERXML_PATH . '/includes/classes.php' );
 		require_once( BEERXML_PATH . '/includes/mime.php' );
 
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
+	}
+
+	function enqueue_scripts() {
+		wp_enqueue_script(
+			'beerxml',
+			plugins_url( '/js/beerxml.js', __FILE__ ),
+			array( 'jquery' )
+		);
 	}
 
 	/**
@@ -236,6 +243,18 @@ HOPS;
 		</div>
 YEASTS;
 
+		/***************
+		 * Notes
+		 **************/
+		$t_notes = __( 'Notes', 'beerxml-shortcode' );
+		$formatted_notes = preg_replace( '/\n/', '<br />', $beer_xml->recipes[0]->notes );
+		$notes = <<<NOTES
+		<div class='beerxml-notes'>
+			<h3>$t_notes</h3>
+			$formatted_notes
+		</div>
+NOTES;
+
 		// stick 'em all together
 		$html = <<<HTML
 		<div class='beerxml-recipe'>
@@ -243,6 +262,7 @@ YEASTS;
 			$fermentables
 			$hops
 			$yeasts
+			$notes
 		</div>
 HTML;
 
