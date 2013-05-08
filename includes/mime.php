@@ -18,7 +18,10 @@ class BeerXML_Mime {
 	 * @return array new array of acceptable mimes
 	 */
 	function beerxml_mimes( $mimes ) {
-		return array_merge( $mimes, array( 'xml' => 'text/xml' ) );
+		if ( ! isset( $mimes['xml'] ) )
+			return array_merge( $mimes, array( 'xml' => 'text/xml' ) );
+
+		return $mimes;
 	}
 }
 
