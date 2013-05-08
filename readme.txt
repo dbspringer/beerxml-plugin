@@ -4,7 +4,7 @@ Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml
 Requires at least: 3.0
 Tested up to: 3.4.1
-Stable tag: 0.1.1
+Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,10 @@ Please note: metric and cache are optional values and have the following default
 2. Inserting the shortcode into a post.
 
 == Changelog ==
+
+= 0.2 =
+
+* New features go here
 
 = 0.1.2b2 =
 
