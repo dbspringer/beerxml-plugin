@@ -124,7 +124,7 @@ class BeerXML_Recipe {
 			} else if ( 'MASH' == $k ) {
 				$this->{strtolower( $k )} = new BeerXML_Mash_Profile( $v );
 			} else {
-				$this->{strtolower( $k )} = (string)$v;
+				$this->{strtolower( $k )} = esc_html( (string)$v );
 			}
 		}
 	}
@@ -152,7 +152,7 @@ class BeerXML_Hop {
 
 	function __construct( $hop ) {
 		foreach ( $hop as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -179,7 +179,7 @@ class BeerXML_Fermentable {
 
 	function __construct( $fermentable ) {
 		foreach ( $fermentable as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -207,7 +207,7 @@ class BeerXML_Yeast {
 
 	function __construct( $yeast ) {
 		foreach ( $yeast as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -228,7 +228,7 @@ class BeerXML_Misc {
 
 	function __construct( $misc ) {
 		foreach ( $misc as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -250,7 +250,7 @@ class BeerXML_Water {
 
 	function __construct( $water ) {
 		foreach ( $water as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -277,7 +277,7 @@ class BeerXML_Equipment {
 
 	function __construct( $equipment ) {
 		foreach ( $equipment as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -311,7 +311,7 @@ class BeerXML_Style {
 
 	function __construct( $style ) {
 		foreach ( $style as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -330,7 +330,7 @@ class BeerXML_Mash_Step {
 
 	function __construct( $mash_step ) {
 		foreach ( $mash_step as $k => $v ) {
-			$this->{strtolower( $k )} = (string)$v;
+			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
 }
@@ -359,7 +359,7 @@ class BeerXML_Mash_Profile {
 
 		foreach ( $mash_profile as $k => $v ) {
 			if ( 'MASH_STEPS' != $k ) {
-				$this->{strtolower( $k )} = (string)$v;
+				$this->{strtolower( $k )} = esc_html( (string)$v );
 			}
 		}
 	}
