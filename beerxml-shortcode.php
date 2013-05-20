@@ -6,7 +6,7 @@ Description: Automatically insert/display beer recipes by linking to a BeerXML d
 Author: Derek Springer
 Version: 0.2
 Author URI: http://12inchpianist.com
-License: GPL2
+License: GPL2 or later
 */
 
 /**
@@ -37,6 +37,7 @@ class BeerXML_Shortcode {
 		if ( ! defined( 'BEERXML_PATH' ) )
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
 
+		require_once( BEERXML_PATH . '/includes/admin.php' );
 		require_once( BEERXML_PATH . '/includes/classes.php' );
 		require_once( BEERXML_PATH . '/includes/mime.php' );
 
