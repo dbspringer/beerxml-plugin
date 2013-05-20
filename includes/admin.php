@@ -21,7 +21,13 @@ class BeerXML_Admin {
 	}
 
 	function options_page() {
-		echo '<h1>SUP!?</h1>';
+		$screen_icon = screen_icon();
+		echo <<<HTML
+		<div class="wrap">
+			$screen_icon
+			<h2>BeerXML Shortcode Settings</h2>
+		</div>
+HTML;
 	}
 }
 
