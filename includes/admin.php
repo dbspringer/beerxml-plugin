@@ -21,10 +21,9 @@ class BeerXML_Admin {
 	}
 
 	function options_page() {
-		$screen_icon = screen_icon();
 		echo <<<HTML
 		<div class="wrap">
-			$screen_icon
+			<div id="icon-options-general" class="icon32"><br></div>
 			<h2>BeerXML Shortcode Settings</h2>
 		</div>
 HTML;
