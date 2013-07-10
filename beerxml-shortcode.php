@@ -44,16 +44,7 @@ class BeerXML_Shortcode {
 			require_once( BEERXML_PATH . '/includes/admin.php' );
 		}
 
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
-	}
-
-	function enqueue_scripts() {
-		wp_enqueue_script(
-			'beerxml',
-			plugins_url( '/js/beerxml.js', __FILE__ ),
-			array( 'jquery' )
-		);
 	}
 
 	/**
