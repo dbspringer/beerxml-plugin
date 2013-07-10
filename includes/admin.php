@@ -1,16 +1,21 @@
 <?php
 
+/**
+ * Class wrapper for admin options for BeerXML shortcode
+ */
 class BeerXML_Admin {
 
+	/**
+	 * Add options page to the admin menu and init the options
+	 */
 	function __construct() {
-		$this->init();
-	}
-
-	function init() {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'admin_init', array( $this, 'options_init' ) );
 	}
 
+	/**
+	 * Add the options page
+	 */
 	function add_options_page() {
 		add_options_page(
 			'BeerXML Shortcode',
@@ -21,6 +26,9 @@ class BeerXML_Admin {
 		);
 	}
 
+	/**
+	 * Output the options to screen
+	 */
 	function options_page() {
 		?>
 		<div class="wrap">
@@ -37,10 +45,13 @@ class BeerXML_Admin {
 		<?php
 	}
 
+	/**
+	 * Add the register the settings and setting sections
+	 */
 	function options_init() {
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_units', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_cache', 'absint' );
-		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_download' );
+		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_download', 'absint' );
 
 		add_settings_section(
 			'beerxml_shortcode_section',
@@ -74,10 +85,16 @@ class BeerXML_Admin {
 		);
 	}
 
+	/**
+	 * Notice for default options
+	 */
 	function print_section_info() {
 		_e( 'Used by default unless overwritten via shortcode', 'beerxml-shortcode' );
 	}
 
+	/**
+	 * Callback for units option
+	 */
 	function units_option() {
 		$units = get_option( 'beerxml_shortcode_units', 1 );
 		?>
@@ -88,12 +105,18 @@ class BeerXML_Admin {
 		<?php
 	}
 
+	/**
+	 * Callback for cache option
+	 */
 	function cache_option() {
 		?>
 		<input type="text" id="beerxml_shortcode_cache" name="beerxml_shortcode_cache" value="<?php echo get_option( 'beerxml_shortcode_cache', 60*60*12 ); ?>" />
 		<?php
 	}
 
+	/**
+	 * Callback for download option
+	 */
 	function download_option() {
 		?>
 		<input type="checkbox" id="beerxml_shortcode_download" name="beerxml_shortcode_download" value="1" <?php checked( get_option( 'beerxml_shortcode_download', 1 ) ); ?> />
