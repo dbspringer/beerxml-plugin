@@ -2,8 +2,8 @@
 Contributors: derekspringer
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml
-Requires at least: 3.0
-Tested up to: 3.4.1
+Requires at least: 3.4
+Tested up to: 3.6-beta4
 Stable tag: 0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -19,9 +19,11 @@ A shortcode for linking to beer recipes.
 * Control if & how long recipe is cached.
 * Allow readers to download the recipe directly.
 
-It follows the basic format of [beerxml recipe={URL} metric=true|false download=true|false cache=-1|{seconds to cache}]
+It follows the basic format of:
 
-Please note: metric and cache are optional values and have the following defaults:
+[beerxml recipe={URL} metric=true|false download=true|false cache=-1|{seconds to cache}]
+
+Please note: metric, download, and cache are optional values and have the following defaults:
 
 * metric = false
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache
