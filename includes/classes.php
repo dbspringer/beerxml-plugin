@@ -365,7 +365,11 @@ class BeerXML_Mash_Profile {
 	}
 }
 
+if ( ! function_exists( 'url_exists' ) ) :
+
 function url_exists( $url ) {
 	$file_headers = @get_headers( $url );
-	return 'HTTP/1.1 404 Not Found' != $file_headers[0];
+	return false === strpos( $file_headers[0], '404' );;
 }
+
+endif;
