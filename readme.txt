@@ -14,16 +14,18 @@ Automatically insert/display beer recipes by linking to a BeerXML document.
 
 A shortcode for linking to beer recipes.
 
-* Link to a BeerXML document to display recipe details, fermentables, hops, and yeast information.
+* Link to a BeerXML document to display recipe details, fermentables, hops, miscs, yeast, and notes.
 * Allows you to easily switch between U.S. & Metric measurements.
 * Control if & how long recipe is cached.
+* Allow readers to download the recipe directly.
 
-It follows the basic format of [beerxml recipe={URL} metric=true|false cache=-1|{seconds to cache}]
+It follows the basic format of [beerxml recipe={URL} metric=true|false download=true|false cache=-1|{seconds to cache}]
 
 Please note: metric and cache are optional values and have the following defaults:
 
 * metric = false
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache
+* download = true
 
 == Installation ==
 
@@ -39,11 +41,10 @@ Please note: metric and cache are optional values and have the following default
 
 = 0.2 =
 
-* New features go here
-
-= 0.1.2b2 =
-
-* Testing beta release procedure.
+* Escaped XML parsing.
+* Added admin menu to set default values for shortcode.
+* Tweaked markup and added Miscs, Notes, and Download section.
+* Added new 'download' parameter to shortcode to allow readers to directly download BeerXML file.
 
 = 0.1.1 =
 

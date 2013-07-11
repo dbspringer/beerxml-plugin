@@ -90,7 +90,8 @@ class BeerXML_Shortcode {
 			$cache = 0;
 		}
 
-		$metric = (boolean) esc_attr( $metric );
+		$metric = filter_var( esc_attr( $metric ), FILTER_VALIDATE_BOOLEAN );
+		$download = filter_var( esc_attr( $download ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
 			$beer_xml = new BeerXML( $recipe );
