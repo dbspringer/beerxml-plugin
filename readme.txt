@@ -1,7 +1,7 @@
 === BeerXML Shortcode ===
 Contributors: derekspringer
 Donate link: http://wordpressfoundation.org/donate/
-Tags: shortcode, beer, beerxml
+Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
 Tested up to: 3.6-beta4
 Stable tag: 0.2
