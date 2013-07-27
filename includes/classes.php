@@ -8,7 +8,8 @@ class BeerXML {
 		if ( ! url_exists( $xml_loc ) )
 			return;
 
-		libxml_use_internal_errors(true);
+		libxml_disable_entity_loader();
+		libxml_use_internal_errors( true );
 		$xml = file_get_contents( $xml_loc );
 		$xrecipes = simplexml_load_string( $xml );
 		if ( ! $xrecipes )
