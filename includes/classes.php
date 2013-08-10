@@ -183,6 +183,19 @@ class BeerXML_Fermentable {
 			$this->{strtolower( $k )} = esc_html( (string)$v );
 		}
 	}
+
+	public static function calculate_total( array $fermentables ) {
+		$total = 0;
+		foreach ( $fermentables as $fermentable ) {
+			$total += $fermentable->amount;
+		}
+
+		return $total;
+	}
+
+	public function percentage( $total ) {
+		return ( $this->amount / $total ) * 100;
+	}
 }
 
 
