@@ -37,25 +37,28 @@ class BeerXML_Shortcode {
 		if ( ! defined( 'BEERXML_PATH' ) )
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
 
-		require_once( BEERXML_PATH . '/includes/classes.php' );
-		require_once( BEERXML_PATH . '/includes/mime.php' );
-
 		if ( is_admin() ) {
 			require_once( BEERXML_PATH . '/includes/admin.php' );
+			return;
 		}
+
+		require_once( BEERXML_PATH . '/includes/classes.php' );
+		require_once( BEERXML_PATH . '/includes/mime.php' );
 
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
 	}
 
 	/**
 	 * Shortcode for BeerXML
-	 * [beerxml recipe=http://example.com/wp-content/uploads/2012/08/bowie-brown.xml cache=10800 metric=true]
+	 * [beerxml recipe=http://example.com/wp-content/uploads/2012/08/bowie-brown.xml cache=10800 metric=true download=true style=true]
 	 *
 	 * @param  array $atts shortcode attributes
 	 *                     recipe - URL to BeerXML document
 	 *                     cache - number of seconds to cache recipe
 	 *                     metric - true  -> use metric values
 	 *                              false -> use U.S. values
+	 *                     download - true -> include link to BeerXML file
+	 *                     style - true -> include style details
 	 * @return string HTML to be inserted in shortcode's place
 	 */
 	function beerxml_shortcode( $atts ) {
@@ -73,7 +76,8 @@ class BeerXML_Shortcode {
 			'recipe'   => null,
 			'cache'    => get_option( 'beerxml_shortcode_cache', 60*60*12 ), // cache for 12 hours
 			'metric'   => 2 == get_option( 'beerxml_shortcode_units', 1 ), // units
-			'download' => get_option( 'beerxml_shortcode_download', 1 )
+			'download' => get_option( 'beerxml_shortcode_download', 1 ), // include download link
+			'style'    => get_option( 'beerxml_shortcode_style', 1 ), // include style details
 		), $atts ) );
 
 		if ( ! isset( $recipe ) ) {
@@ -82,7 +86,7 @@ class BeerXML_Shortcode {
 
 		$recipe = esc_url_raw( $recipe );
 		$recipe_filename = pathinfo( $recipe, PATHINFO_FILENAME );
-		$recipe_id = "beerxml_shortcode_recipe-{$post->ID}_$recipe_filename";
+		$recipe_id = "beerxml_shortcode_recipe-{$post->ID}_{$recipe_filename}";
 
 		$cache  = intval( esc_attr( $cache ) );
 		if ( -1 == $cache ) { // clear cache if set to -1
@@ -92,6 +96,7 @@ class BeerXML_Shortcode {
 
 		$metric = filter_var( esc_attr( $metric ), FILTER_VALIDATE_BOOLEAN );
 		$download = filter_var( esc_attr( $download ), FILTER_VALIDATE_BOOLEAN );
+		$style = filter_var( esc_attr( $style ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
 			$beer_xml = new BeerXML( $recipe );
@@ -156,6 +161,44 @@ class BeerXML_Shortcode {
 DETAILS;
 
 		/***************
+		 * Style Details
+		 **************/
+		$style_details = '';
+		$t_name = __( 'Name', 'beerxml-shortcode' );
+		if ( $style && $beer_xml->recipes[0]->style ) {
+			$t_style = __( 'Style Details', 'beerxml-shortcode' );
+			$t_category = __( 'Cat.', 'beerxml-shortcode' );
+			$t_og_range = __( 'OG Range', 'beerxml-shortcode' );
+			$t_fg_range = __( 'FG Range', 'beerxml-shortcode' );
+			$t_ibu_range = __( 'IBU', 'beerxml-shortcode' );
+			$t_srm_range = __( 'SRM', 'beerxml-shortcode' );
+			$t_carb_range = __( 'Carb', 'beerxml-shortcode' );
+			$t_abv_range = __( 'ABV', 'beerxml-shortcode' );
+			$style_details = <<<STYLE
+			<div class='beerxml-style'>
+				<h3>$t_style</h3>
+				<table>
+					<thead>
+						<tr>
+							<th>$t_name</th>
+							<th>$t_category</th>
+							<th>$t_og_range</th>
+							<th>$t_fg_range</th>
+							<th>$t_ibu_range</th>
+							<th>$t_srm_range</th>
+							<th>$t_carb_range</th>
+							<th>$t_abv_range</th>
+						</tr>
+					</thead>
+					<tbody>
+						{$this->build_style( $beer_xml->recipes[0]->style )}
+					</tbody>
+				</table>
+			</div>
+STYLE;
+		}
+
+		/***************
 		 * Fermentables Details
 		 **************/
 		$fermentables = '';
@@ -165,9 +208,7 @@ DETAILS;
 		}
 
 		$t_fermentables = __( 'Fermentables', 'beerxml-shortcode' );
-		$t_name = __( 'Name', 'beerxml-shortcode' );
 		$t_amount = __( 'Amount', 'beerxml-shortcode' );
-		$t_percent = __( '%', 'beerxml-shortcode' );
 		$fermentables = <<<FERMENTABLES
 		<div class='beerxml-fermentables'>
 			<h3>$t_fermentables</h3>
@@ -176,7 +217,7 @@ DETAILS;
 					<tr>
 						<th>$t_name</th>
 						<th>$t_amount</th>
-						<th>$t_percent</th>
+						<th>%</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -333,6 +374,7 @@ LINK;
 		$html = <<<HTML
 		<div class='beerxml-recipe'>
 			$details
+			$style_details
 			$fermentables
 			$hops
 			$miscs
@@ -347,6 +389,32 @@ HTML;
 		}
 
 		return $html;
+	}
+
+	/**
+	 * Build style row
+	 * @param  BeerXML_Style 		$style fermentable to display
+	 */
+	static function build_style( $style ) {
+		$category = $style->category_number . ' ' . $style->style_letter;
+		$og_range = round( $style->og_min, 3 ) . ' - ' . round( $style->og_max, 3 );
+		$fg_range = round( $style->fg_min, 3 ) . ' - ' . round( $style->fg_max, 3 );
+		$ibu_range = round( $style->ibu_min, 1 ) . ' - ' . round( $style->ibu_max, 1 );
+		$srm_range = round( $style->color_min, 1 ) . ' - ' . round( $style->color_max, 1 );
+		$carb_range = round( $style->carb_min, 1 ) . ' - ' . round( $style->carb_max, 1 );
+		$abv_range = round( $style->abv_min, 1 ) . ' - ' . round( $style->abv_max, 1 );
+		return <<<STYLE
+		<tr>
+			<td>{$style->name}</td>
+			<td>$category</td>
+			<td>$og_range</td>
+			<td>$fg_range</td>
+			<td>$ibu_range</td>
+			<td>$srm_range</td>
+			<td>$carb_range</td>
+			<td>$abv_range %</td>
+		</tr>
+STYLE;
 	}
 
 	/**
