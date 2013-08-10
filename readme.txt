@@ -3,8 +3,8 @@ Contributors: derekspringer
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
-Tested up to: 3.6-beta4
-Stable tag: 0.2
+Tested up to: 3.6
+Stable tag: 0.2.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,6 +40,11 @@ Please note: metric, download, and cache are optional values and have the follow
 2. Inserting the shortcode into a post.
 
 == Changelog ==
+
+= 0.2.1 =
+
+* Added % to fermentables.
+* Added XML parsing security update I picked up at WCSF.
 
 = 0.2 =
 
