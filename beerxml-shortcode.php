@@ -37,13 +37,13 @@ class BeerXML_Shortcode {
 		if ( ! defined( 'BEERXML_PATH' ) )
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
 
+		require_once( BEERXML_PATH . '/includes/mime.php' );
 		if ( is_admin() ) {
 			require_once( BEERXML_PATH . '/includes/admin.php' );
 			return;
 		}
 
 		require_once( BEERXML_PATH . '/includes/classes.php' );
-		require_once( BEERXML_PATH . '/includes/mime.php' );
 
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
 	}
