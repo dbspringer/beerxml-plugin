@@ -52,6 +52,7 @@ class BeerXML_Admin {
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_units', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_cache', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_download', 'absint' );
+		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_style', 'absint' );
 
 		add_settings_section(
 			'beerxml_shortcode_section',
@@ -80,6 +81,14 @@ class BeerXML_Admin {
 			'beerxml_shortcode_download',
 			__( 'Include download link', 'beerxml-shortcode' ),
 			array( $this, 'download_option' ),
+			'beerxml-shortcode',
+			'beerxml_shortcode_section'
+		);
+
+		add_settings_field(
+			'beerxml_shortcode_style',
+			__( 'Include style details', 'beerxml-shortcode' ),
+			array( $this, 'style_option' ),
 			'beerxml-shortcode',
 			'beerxml_shortcode_section'
 		);
@@ -120,6 +129,15 @@ class BeerXML_Admin {
 	function download_option() {
 		?>
 		<input type="checkbox" id="beerxml_shortcode_download" name="beerxml_shortcode_download" value="1" <?php checked( get_option( 'beerxml_shortcode_download', 1 ) ); ?> />
+		<?php
+	}
+
+	/**
+	 * Callback for style option
+	 */
+	function style_option() {
+		?>
+		<input type="checkbox" id="beerxml_shortcode_style" name="beerxml_shortcode_style" value="1" <?php checked( get_option( 'beerxml_shortcode_style', 1 ) ); ?> />
 		<?php
 	}
 }
