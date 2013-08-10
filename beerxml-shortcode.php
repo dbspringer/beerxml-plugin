@@ -4,7 +4,7 @@ Plugin Name: BeerXML Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert/display beer recipes by linking to a BeerXML document.
 Author: Derek Springer
-Version: 0.2
+Version: 0.2.1
 Author URI: http://12inchpianist.com
 License: GPL2 or later
 */
@@ -159,13 +159,15 @@ DETAILS;
 		 * Fermentables Details
 		 **************/
 		$fermentables = '';
+		$total = BeerXML_Fermentable::calculate_total( $beer_xml->recipes[0]->fermentables );
 		foreach ( $beer_xml->recipes[0]->fermentables as $fermentable ) {
-			$fermentables .= $this->build_fermentable( $fermentable, $metric );
+			$fermentables .= $this->build_fermentable( $fermentable, $total, $metric );
 		}
 
 		$t_fermentables = __( 'Fermentables', 'beerxml-shortcode' );
 		$t_name = __( 'Name', 'beerxml-shortcode' );
 		$t_amount = __( 'Amount', 'beerxml-shortcode' );
+		$t_percent = __( '%', 'beerxml-shortcode' );
 		$fermentables = <<<FERMENTABLES
 		<div class='beerxml-fermentables'>
 			<h3>$t_fermentables</h3>
@@ -174,6 +176,7 @@ DETAILS;
 					<tr>
 						<th>$t_name</th>
 						<th>$t_amount</th>
+						<th>$t_percent</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -352,7 +355,8 @@ HTML;
 	 * @param  boolean $metric      true to display values in metric
 	 * @return string               table row containing fermentable details
 	 */
-	static function build_fermentable( $fermentable, $metric = false ) {
+	static function build_fermentable( $fermentable, $total, $metric = false ) {
+		$percentage = round( $fermentable->percentage( $total ), 2 );
 		if ( $metric ) {
 			$fermentable->amount = round( $fermentable->amount, 3 );
 			$t_weight = __( 'kg', 'beerxml-shortcode' );
@@ -365,6 +369,7 @@ HTML;
 		<tr>
 			<td>$fermentable->name</td>
 			<td>$fermentable->amount $t_weight</td>
+			<td>$percentage</td>
 		</tr>
 FERMENTABLE;
 	}
