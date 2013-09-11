@@ -8,29 +8,33 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2012-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2013-09-03 12:33-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Language: fr_FR\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-SourceCharset: UTF-8\n"
 
 #: beerxml-shortcode.php:107
 msgid "L"
-msgstr ""
+msgstr "L"
 
 #: beerxml-shortcode.php:110
 msgid "gal"
-msgstr ""
+msgstr "gal."
 
 #: beerxml-shortcode.php:114
 msgid "Recipe Details"
-msgstr ""
+msgstr "Détails de la recette"
 
 #: beerxml-shortcode.php:115
 msgid "Batch Size"
-msgstr ""
+msgstr "Volume du brassin"
 
 #: beerxml-shortcode.php:116
 msgid "Boil Time"
-msgstr ""
+msgstr "Temps de cuisson"
 
 #: beerxml-shortcode.php:117 beerxml-shortcode.php:298
 msgid "min"
@@ -38,7 +42,7 @@ msgstr ""
 
 #: beerxml-shortcode.php:118
 msgid "IBU"
-msgstr ""
+msgstr "IBU"
 
 #: beerxml-shortcode.php:119
 msgid "SRM"
@@ -46,11 +50,11 @@ msgstr ""
 
 #: beerxml-shortcode.php:120
 msgid "Est. OG"
-msgstr ""
+msgstr "GO Est."
 
 #: beerxml-shortcode.php:121
 msgid "Est. FG"
-msgstr ""
+msgstr "GF Est."
 
 #: beerxml-shortcode.php:122
 msgid "ABV"
@@ -58,27 +62,27 @@ msgstr ""
 
 #: beerxml-shortcode.php:159
 msgid "Fermentables"
-msgstr ""
+msgstr "Fermentables"
 
 #: beerxml-shortcode.php:160
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: beerxml-shortcode.php:161
 msgid "Amount"
-msgstr ""
+msgstr "Quantité"
 
 #: beerxml-shortcode.php:185
 msgid "Hops"
-msgstr ""
+msgstr "Houblons"
 
 #: beerxml-shortcode.php:186
 msgid "Time"
-msgstr ""
+msgstr "Temps"
 
 #: beerxml-shortcode.php:187
 msgid "Use"
-msgstr ""
+msgstr "Utilisation"
 
 #: beerxml-shortcode.php:188
 msgid "Form"
@@ -90,7 +94,7 @@ msgstr ""
 
 #: beerxml-shortcode.php:217
 msgid "Yeast"
-msgstr ""
+msgstr "Levure"
 
 #: beerxml-shortcode.php:218
 msgid "Lab"
@@ -98,11 +102,11 @@ msgstr ""
 
 #: beerxml-shortcode.php:219
 msgid "Attenuation"
-msgstr ""
+msgstr "Atténuation"
 
 #: beerxml-shortcode.php:220
 msgid "Temperature"
-msgstr ""
+msgstr "Température"
 
 #: beerxml-shortcode.php:264
 msgid "kg"
@@ -123,8 +127,8 @@ msgstr ""
 #: beerxml-shortcode.php:295
 msgid "day"
 msgid_plural "days"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "jour"
+msgstr[1] "jours"
 
 #: beerxml-shortcode.php:325
 msgid "C"
@@ -153,4 +157,28 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://12inchpianist.com"
+msgstr ""
+
+#. Style Details
+msgid "Style Details"
+msgstr ""
+
+#. OG Range
+msgid "OG Range"
+msgstr ""
+
+#. FG Range
+msgid "FG Range"
+msgstr ""
+
+#. IBU Method
+msgid "IBU Method"
+msgstr ""
+
+#. Download
+msgid "Download"
+msgstr ""
+
+#. Download message
+msgid "Download this recipe's BeerXML file"
 msgstr ""
