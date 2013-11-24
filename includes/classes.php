@@ -10,8 +10,12 @@ class BeerXML {
 
 		libxml_disable_entity_loader();
 		libxml_use_internal_errors( true );
-		$xml = file_get_contents( $xml_loc );
-		$xrecipes = simplexml_load_string( $xml );
+        $curl_session = curl_init();
+        curl_setopt($curl_session, CURLOPT_URL, $xml_loc);
+        curl_setopt($curl_session, CURL_RETURNTRANSFER, true);
+        $xml = curl_exec($curl_session);
+        curl_close($curl_session);
+        $xrecipes = simplexml_load_string( $xml );
 		if ( ! $xrecipes )
 			return;
 
