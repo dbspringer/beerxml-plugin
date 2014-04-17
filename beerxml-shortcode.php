@@ -37,6 +37,9 @@ class BeerXML_Shortcode {
 		if ( ! defined( 'BEERXML_PATH' ) )
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
 
+		if ( ! defined( 'BEERXML_BASENAME' ) )
+			define( 'BEERXML_BASENAME', plugin_basename( __FILE__ ) );
+
 		require_once( BEERXML_PATH . '/includes/mime.php' );
 		if ( is_admin() ) {
 			require_once( BEERXML_PATH . '/includes/admin.php' );

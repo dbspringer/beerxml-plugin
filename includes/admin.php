@@ -9,8 +9,18 @@ class BeerXML_Admin {
 	 * Add options page to the admin menu and init the options
 	 */
 	function __construct() {
+		add_filter( 'plugin_action_links_' . BEERXML_BASENAME, array( $this, 'settings_link' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'admin_init', array( $this, 'options_init' ) );
+	}
+
+	/**
+	 * Add settings link on plugin page
+	 */
+	function settings_link( $links ) {
+		$settings_link = '<a href="options-general.php?page=beerxml-shortcode">Settings</a>';
+		array_unshift( $links, $settings_link );
+		return $links;
 	}
 
 	/**
