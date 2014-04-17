@@ -3,8 +3,8 @@ Contributors: derekspringer
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
-Tested up to: 3.6
-Stable tag: 0.3
+Tested up to: 3.9
+Stable tag: 0.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -42,6 +42,11 @@ Please note: metric, download, style, and cache are optional values and have the
 2. Inserting the shortcode into a post.
 
 == Changelog ==
+
+= 0.3.1 =
+
+* Updated uninstall.php to remove options (including multisite) upon uninstall.
+* Updated XML retrieval to use wp_remote_get instead of file_get_contents, which caused some folks issues.
 
 = 0.3 =
 
