@@ -47,6 +47,7 @@ Please note: metric, download, style, and cache are optional values and have the
 
 * Updated uninstall.php to remove options (including multisite) upon uninstall.
 * Updated XML retrieval to use wp_remote_get instead of file_get_contents, which caused some folks issues.
+* Added settings link to plugins page.
 
 = 0.3 =
 
