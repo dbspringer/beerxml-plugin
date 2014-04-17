@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2013-09-03 12:33-0500\n"
+"PO-Revision-Date: 2013-09-03 12:32-0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
@@ -157,28 +157,4 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://12inchpianist.com"
-msgstr ""
-
-#. Style Details
-msgid "Style Details"
-msgstr ""
-
-#. OG Range
-msgid "OG Range"
-msgstr ""
-
-#. FG Range
-msgid "FG Range"
-msgstr ""
-
-#. IBU Method
-msgid "IBU Method"
-msgstr ""
-
-#. Download
-msgid "Download"
-msgstr ""
-
-#. Download message
-msgid "Download this recipe's BeerXML file"
 msgstr ""
