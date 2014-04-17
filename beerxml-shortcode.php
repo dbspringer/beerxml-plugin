@@ -46,7 +46,6 @@ class BeerXML_Shortcode {
 		require_once( BEERXML_PATH . '/includes/classes.php' );
 
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
-
 	}
 
 	/**
@@ -113,9 +112,6 @@ class BeerXML_Shortcode {
 		/***************
 		 * Recipe Details
 		 **************/
-
-        //var_dump($beer_xml->recipes[0]);
-
 		if ( $metric ) {
 			$beer_xml->recipes[0]->batch_size = round( $beer_xml->recipes[0]->batch_size, 1 );
 			$t_vol = __( 'L', 'beerxml-shortcode' );
@@ -123,15 +119,6 @@ class BeerXML_Shortcode {
 			$beer_xml->recipes[0]->batch_size = round( $beer_xml->recipes[0]->batch_size * 0.264172, 1 );
 			$t_vol = __( 'gal', 'beerxml-shortcode' );
 		}
-
-        $b_infos = <<<B_INFOS
-        <div class='beerxml-headers'>
-            <h3>{$beer_xml->recipes[0]->name} <small> v. {$beer_xml->recipes[0]->version}</small></h3>
-        </div>
-
-B_INFOS;
-
-
 
 		$btime = round( $beer_xml->recipes[0]->boil_time );
 		$t_details = __( 'Recipe Details', 'beerxml-shortcode' );
@@ -143,7 +130,6 @@ B_INFOS;
 		$t_og      = __( 'Est. OG', 'beerxml-shortcode' );
 		$t_fg      = __( 'Est. FG', 'beerxml-shortcode' );
 		$t_abv     = __( 'ABV', 'beerxml-shortcode' );
-        $t_ibu_method = __( 'IBU Method', 'beerxml-shortcode' );
 		$details = <<<DETAILS
 		<div class='beerxml-details'>
 			<h3>$t_details</h3>
@@ -171,7 +157,6 @@ B_INFOS;
 					</tr>
 				</tbody>
 			</table>
-			<p><small>$t_ibu_method: {$beer_xml->recipes[0]->ibu_method}</small></p>
 		</div>
 DETAILS;
 
@@ -189,12 +174,8 @@ DETAILS;
 			$t_srm_range = __( 'SRM', 'beerxml-shortcode' );
 			$t_carb_range = __( 'Carb', 'beerxml-shortcode' );
 			$t_abv_range = __( 'ABV', 'beerxml-shortcode' );
-            $show_hide = __('[showhide type="pressrelease"]Press Release goes in here.[/showhide]');
 			$style_details = <<<STYLE
-
 			<div class='beerxml-style'>
-			    <button>Visualiser / Masquer les infos du style</button>
-			    <div class='style-infos'>
 				<h3>$t_style</h3>
 				<table>
 					<thead>
@@ -213,13 +194,6 @@ DETAILS;
 						{$this->build_style( $beer_xml->recipes[0]->style )}
 					</tbody>
 				</table>
-				<blockquote>
-				    <p>{$beer_xml->recipes[0]->style->profile}</p>
-				    <footer>-
-				        <cite>Profil type de référence</cite>
-				    </footer>
-				</blockquote>
-				</div>
 			</div>
 STYLE;
 		}
@@ -399,7 +373,6 @@ LINK;
 		// stick 'em all together
 		$html = <<<HTML
 		<div class='beerxml-recipe'>
-		    $b_infos
 			$details
 			$style_details
 			$fermentables
@@ -409,15 +382,6 @@ LINK;
 			$notes
 			$link
 		</div>
-		<script>
-		jQuery(document).ready(function($){
-		    $('.beerxml-style > button').bind("click", function(){
-		        console.log('Click');
-		        $('.style-infos').toggle();
-		    });
-		    $('.style-infos').hide();
-		});
-		</script>
 HTML;
 
 		if ( $cache && $beer_xml->recipes ) {
