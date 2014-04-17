@@ -5,12 +5,21 @@ class BeerXML {
 	public $recipes = array();
 
 	function __construct( $xml_loc ) {
-		if ( ! url_exists( $xml_loc ) )
+		$response = wp_remote_get( $xml_loc );
+		if ( is_wp_error( $response ) ) {
+			$error_message = $response->get_error_message();
+			echo "XML not retrieved: $error_message";
 			return;
+		}
+
+		if ( '404' == $response['response']['code'] ) {
+			echo "XML not retrieved: Not found.";
+			return;
+		}
 
 		libxml_disable_entity_loader();
 		libxml_use_internal_errors( true );
-		$xml = file_get_contents( $xml_loc );
+		$xml = wp_remote_retrieve_body( $response );
 		$xrecipes = simplexml_load_string( $xml );
 		if ( ! $xrecipes )
 			return;
