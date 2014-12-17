@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert/display beer recipes by linking to a BeerXML document.
 Author: Derek Springer
 Version: 0.3.1
-Author URI: http://12inchpianist.com
+Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
 License: GPL2 or later
 */
 
