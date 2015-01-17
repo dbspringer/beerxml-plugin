@@ -19,6 +19,7 @@ class BeerXML_Shortcode {
 	 */
 	function __construct() {
 		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'init', array( $this, 'beer_style' ) );
 	}
 
 	/**
@@ -49,6 +50,44 @@ class BeerXML_Shortcode {
 		require_once( BEERXML_PATH . '/includes/classes.php' );
 
 		add_shortcode( 'beerxml', array( $this, 'beerxml_shortcode' ) );
+	}
+
+	/**
+	 * Register Custom Taxonomy for Beer Style
+	 */
+	function beer_style() {
+		$labels = array(
+			'name'                       => __( 'Beer Styles' ),
+			'singular_name'              => __( 'Beer Style' ),
+			'menu_name'                  => __( 'Beer Style' ),
+			'all_items'                  => __( 'All Beer Styles' ),
+			'parent_item'                => __( 'Parent Beer Style' ),
+			'parent_item_colon'          => __( 'Parent Beer Style:' ),
+			'new_item_name'              => __( 'New Beer Style Name' ),
+			'add_new_item'               => __( 'Add New Beer Style' ),
+			'edit_item'                  => __( 'Edit Beer Style' ),
+			'update_item'                => __( 'Update Beer Style' ),
+			'separate_items_with_commas' => __( 'Separate beer styles with commas' ),
+			'search_items'               => __( 'Search Beer Styles' ),
+			'add_or_remove_items'        => __( 'Add or remove beer styles' ),
+			'choose_from_most_used'      => __( 'Choose from the most used beer styles' ),
+			'not_found'                  => __( 'Not Found' ),
+		);
+
+		$args = array(
+			'labels'                     => $labels,
+			'hierarchical'               => false,
+			'public'                     => true,
+			'show_ui'                    => true,
+			'show_admin_column'          => true,
+			'show_in_nav_menus'          => true,
+			'show_tagcloud'              => true,
+			'update_count_callback' 	 => '_update_post_term_count',
+			'query_var'					 => true,
+			'rewrite'           		 => array( 'slug' => 'beer-style' ),
+		);
+
+		register_taxonomy( 'beer_style', 'post', $args );
 	}
 
 	/**
@@ -168,6 +207,7 @@ DETAILS;
 		 **************/
 		$style_details = '';
 		$t_name = __( 'Name', 'beerxml-shortcode' );
+
 		if ( $style && $beer_xml->recipes[0]->style ) {
 			$t_style = __( 'Style Details', 'beerxml-shortcode' );
 			$t_category = __( 'Cat.', 'beerxml-shortcode' );
@@ -399,6 +439,8 @@ HTML;
 	 * @param  BeerXML_Style 		$style fermentable to display
 	 */
 	static function build_style( $style ) {
+		global $post;
+
 		$category = $style->category_number . ' ' . $style->style_letter;
 		$og_range = round( $style->og_min, 3 ) . ' - ' . round( $style->og_max, 3 );
 		$fg_range = round( $style->fg_min, 3 ) . ' - ' . round( $style->fg_max, 3 );
@@ -406,9 +448,26 @@ HTML;
 		$srm_range = round( $style->color_min, 1 ) . ' - ' . round( $style->color_max, 1 );
 		$carb_range = round( $style->carb_min, 1 ) . ' - ' . round( $style->carb_max, 1 );
 		$abv_range = round( $style->abv_min, 1 ) . ' - ' . round( $style->abv_max, 1 );
+
+		if ( !term_exists( $style->name, 'beer_style' ) ) {
+			wp_insert_term( $style->name, 'beer_style' );
+		}
+
+		wp_set_object_terms( $post->ID, $style->name, 'beer_style' );
+
+		$catlist = get_the_terms( $post->ID, 'beer_style' );
+		$catlist = array_values( $catlist );
+
+		if ( $catlist && !is_wp_error( $catlist ) ) :
+			$link = get_term_link( $catlist[0]->term_id, 'beer_style' );
+			$name = $catlist[0]->name;
+
+			$catname = '<a href="'.$link.'">'.$name.'</a>';
+		endif;
+
 		return <<<STYLE
 		<tr>
-			<td>{$style->name}</td>
+			<td>{$catname}</td>
 			<td>$category</td>
 			<td>$og_range</td>
 			<td>$fg_range</td>
