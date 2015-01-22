@@ -4,7 +4,7 @@ Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
 Tested up to: 4.1
-Stable tag: 0.3.2
+Stable tag: 0.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ A shortcode for linking to beer recipes.
 
 It follows the basic format of:
 
-[beerxml recipe={URL} metric=true|false download=true|false style=true|false cache=-1|{seconds to cache}]
+[beerxml recipe={URL} metric=true|false download=true|false style=true|false mash=true|false fermentation=true|false cache=-1|{seconds to cache}]
 
 Please note: metric, download, style, and cache are optional values and have the following defaults:
 
@@ -29,6 +29,8 @@ Please note: metric, download, style, and cache are optional values and have the
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache and sets value to 0
 * download = true
 * style = true
+* mash = true
+* fermentation = true
 
 == Installation ==
 
@@ -42,6 +44,11 @@ Please note: metric, download, style, and cache are optional values and have the
 2. Inserting the shortcode into a post.
 
 == Changelog ==
+
+= 0.3.3 =
+
+* Added Mash Details Section
+* Added Fermentaion Details Section
 
 = 0.3.2 =
 
