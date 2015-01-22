@@ -9,6 +9,8 @@ if ( ! is_multisite() ) {
 	delete_option( 'beerxml_shortcode_units' );
 	delete_option( 'beerxml_shortcode_download' );
 	delete_option( 'beerxml_shortcode_style' );
+	delete_option( 'beerxml_shortcode_mash' );
+	delete_option( 'beerxml_shortcode_fermentation' );
 } else {
 	global $wpdb;
 	$blog_ids = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
@@ -19,6 +21,8 @@ if ( ! is_multisite() ) {
 		delete_option( 'beerxml_shortcode_units' );
 		delete_option( 'beerxml_shortcode_download' );
 		delete_option( 'beerxml_shortcode_style' );
+		delete_option( 'beerxml_shortcode_mash' );
+		delete_option( 'beerxml_shortcode_fermentation' );
 	}
 
 	switch_to_blog( $original_blog_id );
