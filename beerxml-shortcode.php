@@ -93,7 +93,14 @@ class BeerXML_Shortcode {
 
 	/**
 	 * Shortcode for BeerXML
-	 * [beerxml recipe=http://example.com/wp-content/uploads/2012/08/bowie-brown.xml cache=10800 metric=true download=true style=true mash=true fermentation=true]
+	 * [beerxml
+	 * 		recipe=http://example.com/wp-content/uploads/2012/08/bowie-brown.xml
+	 * 		cache=10800
+	 * 		metric=true
+	 * 		download=true
+	 * 		style=true
+	 * 		mash=true
+	 * 		fermentation=true]
 	 *
 	 * @param  array $atts shortcode attributes
 	 *                     recipe - URL to BeerXML document
@@ -118,13 +125,13 @@ class BeerXML_Shortcode {
 		}
 
 		extract( shortcode_atts( array(
-			'recipe'   => null,
-			'cache'    => get_option( 'beerxml_shortcode_cache', 60*60*12 ), // cache for 12 hours
-			'metric'   => 2 == get_option( 'beerxml_shortcode_units', 1 ), // units
-			'download' => get_option( 'beerxml_shortcode_download', 1 ), // include download link
-			'style'    => get_option( 'beerxml_shortcode_style', 1 ), // include style details
-			'mash'    => get_option( 'beerxml_shortcode_mash', 1 ), // include mash details
-			'fermentation'    => get_option( 'beerxml_shortcode_fermentation', 1 ), // include fermentation details
+			'recipe'       => null,
+			'cache'        => get_option( 'beerxml_shortcode_cache', 60*60*12 ), // cache for 12 hours
+			'metric'       => 2 == get_option( 'beerxml_shortcode_units', 1 ), // units
+			'download'     => get_option( 'beerxml_shortcode_download', 1 ), // include download link
+			'style'        => get_option( 'beerxml_shortcode_style', 1 ), // include style details
+			'mash'         => get_option( 'beerxml_shortcode_mash', 0 ), // include mash details
+			'fermentation' => get_option( 'beerxml_shortcode_fermentation', 0 ), // include fermentation details
 		), $atts ) );
 
 		if ( ! isset( $recipe ) ) {
@@ -141,10 +148,10 @@ class BeerXML_Shortcode {
 			$cache = 0;
 		}
 
-		$metric = filter_var( esc_attr( $metric ), FILTER_VALIDATE_BOOLEAN );
-		$download = filter_var( esc_attr( $download ), FILTER_VALIDATE_BOOLEAN );
-		$style = filter_var( esc_attr( $style ), FILTER_VALIDATE_BOOLEAN );
-		$mash = filter_var( esc_attr( $mash ), FILTER_VALIDATE_BOOLEAN );
+		$metric       = filter_var( esc_attr( $metric ), FILTER_VALIDATE_BOOLEAN );
+		$download     = filter_var( esc_attr( $download ), FILTER_VALIDATE_BOOLEAN );
+		$style        = filter_var( esc_attr( $style ), FILTER_VALIDATE_BOOLEAN );
+		$mash         = filter_var( esc_attr( $mash ), FILTER_VALIDATE_BOOLEAN );
 		$fermentation = filter_var( esc_attr( $fermentation ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
@@ -377,7 +384,7 @@ MISCS;
 			</div>
 YEASTS;
 		}
-		
+
 		/***************
 		 * Mash Details
 		 **************/
@@ -387,9 +394,9 @@ YEASTS;
 				foreach ( $beer_xml->recipes[0]->mash->mash_steps as $mash_step ) {
 					$mash_details .= $this->build_mash( $mash_step, $metric );
 				}
-	
-				$t_mash       = __( 'Mash', 'beerxml-shortcode' );
-				$t_mash_step_name         = __( 'Step', 'beerxml-shortcode' );
+
+				$t_mash           = __( 'Mash', 'beerxml-shortcode' );
+				$t_mash_step_name = __( 'Step', 'beerxml-shortcode' );
 				$t_mash_step_time = __( 'Time', 'beerxml-shortcode' );
 				$t_mash_step_temp = __( 'Temperature', 'beerxml-shortcode' );
 				$mash_details = <<<MASH
@@ -399,8 +406,8 @@ YEASTS;
 						<thead>
 							<tr>
 								<th>$t_mash_step_name</th>
-								<th>$t_mash_step_time</th>
 								<th>$t_mash_step_temp</th>
+								<th>$t_mash_step_time</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -411,24 +418,22 @@ YEASTS;
 MASH;
 			}
 		}
-		
+
 		/***************
 		 * Fermentation Details
 		 **************/
 		$fermentation_details = '';
 		if ( $fermentation ) {
-			
 			$fermentation_steps = $this->build_fermentation_steps($beer_xml->recipes[0]);
-			
 			foreach ( $fermentation_steps as $fermentation_step ) {
 				$fermentation_details .= $this->build_fermentation( $fermentation_step, $metric );
 			}
 
-			$t_fermentation       = __( 'Fermentation', 'beerxml-shortcode' );
-			$t_fermentation_step_name         = __( 'Step', 'beerxml-shortcode' );
+			$t_fermentation           = __( 'Fermentation', 'beerxml-shortcode' );
+			$t_fermentation_step_name = __( 'Step', 'beerxml-shortcode' );
 			$t_fermentation_step_time = __( 'Time', 'beerxml-shortcode' );
 			$t_fermentation_step_temp = __( 'Temperature', 'beerxml-shortcode' );
-			
+
 			$fermentation_details = <<<FERMENTATION
 			<div class='beerxml-fermentation'>
 				<h3>$t_fermentation</h3>
@@ -685,12 +690,12 @@ MISC;
 		</tr>
 YEAST;
 	}
-	
+
 	/**
 	 * Build mash row
-	 * @param  BeerXML_Mash        $mash_details mash details to display
-	 * @param  boolean $metric      true to display values in metric
-	 * @return string               table row containing mash details
+	 * @param  BeerXML_Mash_Step   $mash_details mash details to display
+	 * @param  boolean $metric     true to display values in metric
+	 * @return string              table row containing mash details
 	 */
 	static function build_mash( $mash_details, $metric = false ) {
 		if ( $metric ) {
@@ -702,47 +707,62 @@ YEAST;
 		}
 
 		$mash_details->step_time = round( $mash_details->step_time );
-		
 		$t_minutes = __( 'min', 'beerxml-shortcode' );
 
 		return <<<MASH
 		<tr>
 			<td>$mash_details->name</td>
-			<td>{$mash_details->step_time} $t_minutes</td>
 			<td>{$mash_details->step_temp}°$t_temp</td>
+			<td>{$mash_details->step_time} $t_minutes</td>
 		</tr>
 MASH;
 	}
-	
+
 	/**
 	 * Build fermentation array
-	 * @param  BeerXML_Recipe        Main Recipe
-	 * @return string               array containing fermentation steps
+	 * @param  BeerXML_Recipe       Main Recipe
+	 * @return array                fermentation steps
 	 */
 	static function build_fermentation_steps( $recipe ) {
-		
-		if ($recipe->fermentation_stages >= 1) {
-			$fermentation_stages[] = array('name' => 'Primary', 'time' => $recipe->primary_age, 'temp' => $recipe->primary_temp);	
+		$fermentation_stages = array();
+		if ( 1 <= $recipe->fermentation_stages ) {
+			$fermentation_stages[] = array(
+				'name' => 'Primary',
+				'time' => $recipe->primary_age,
+				'temp' => $recipe->primary_temp
+			);
 		}
-		
-		if ($recipe->fermentation_stages >= 2) {
-			$fermentation_stages[] = array('name' => 'Secondary', 'time' => $recipe->secondary_age, 'temp' => $recipe->secondary_temp);
+
+		if ( 2 <= $recipe->fermentation_stages ) {
+			$fermentation_stages[] = array(
+				'name' => 'Secondary',
+				'time' => $recipe->secondary_age,
+				'temp' => $recipe->secondary_temp
+			);
 		}
-		
-		if ($recipe->fermentation_stages = 3) {
-			$fermentation_stages[] = array('name' => 'Tertiary', 'time' => $recipe->tertiary_age, 'temp' => $recipe->tertiary_temp);
+
+		if ( 3 == $recipe->fermentation_stages ) {
+			$fermentation_stages[] = array(
+				'name' => 'Tertiary',
+				'time' => $recipe->tertiary_age,
+				'temp' => $recipe->tertiary_temp
+			);
 		}
-		
-		$fermentation_stages[] = array('name' => 'Aging', 'time' => $recipe->age, 'temp' => $recipe->age_temp);
-		
+
+		$fermentation_stages[] = array(
+			'name' => 'Aging',
+			'time' => $recipe->age,
+			'temp' => $recipe->age_temp
+		);
+
 		return $fermentation_stages;
 	}
-	
+
 	/**
 	 * Build fermentation row
-	 * @param  Fermentation Steps        $fermentation_details fermentation steps to display
-	 * @param  boolean $metric      true to display values in metric
-	 * @return string               table row containing fermentation details
+	 * @param  array   $fermentation_details	fermentation steps to display
+	 * @param  boolean $metric      			true to display values in metric
+	 * @return string               			table row containing fermentation details
 	 */
 	static function build_fermentation( $fermentation_details, $metric = false ) {
 		if ( $metric ) {
@@ -754,9 +774,7 @@ MASH;
 		}
 
 		$fermentation_details['time'] = round( $fermentation_details['time'] );
-		
 		$t_days = __( 'days', 'beerxml-shortcode' );
-
 		return <<<FERMENTATION
 		<tr>
 			<td>{$fermentation_details['name']}</td>
