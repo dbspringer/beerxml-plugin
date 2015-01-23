@@ -65,7 +65,7 @@ class BeerXML_Admin {
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_style', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_mash', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_fermentation', 'absint' );
-		
+
 		add_settings_section(
 			'beerxml_shortcode_section',
 			__( 'Shortcode default settings', 'beerxml-shortcode' ),
@@ -104,7 +104,7 @@ class BeerXML_Admin {
 			'beerxml-shortcode',
 			'beerxml_shortcode_section'
 		);
-		
+
 		add_settings_field(
 			'beerxml_shortcode_mash',
 			__( 'Include mash details', 'beerxml-shortcode' ),
@@ -112,7 +112,7 @@ class BeerXML_Admin {
 			'beerxml-shortcode',
 			'beerxml_shortcode_section'
 		);
-		
+
 		add_settings_field(
 			'beerxml_shortcode_fermentation',
 			__( 'Include fermentation details', 'beerxml-shortcode' ),
@@ -168,22 +168,22 @@ class BeerXML_Admin {
 		<input type="checkbox" id="beerxml_shortcode_style" name="beerxml_shortcode_style" value="1" <?php checked( get_option( 'beerxml_shortcode_style', 1 ) ); ?> />
 		<?php
 	}
-	
+
 	/**
 	 * Callback for mash option
 	 */
 	function mash_option() {
 		?>
-		<input type="checkbox" id="beerxml_shortcode_mash" name="beerxml_shortcode_mash" value="1" <?php checked( get_option( 'beerxml_shortcode_mash', 1 ) ); ?> />
+		<input type="checkbox" id="beerxml_shortcode_mash" name="beerxml_shortcode_mash" value="1" <?php checked( get_option( 'beerxml_shortcode_mash', 0 ) ); ?> />
 		<?php
 	}
-	
+
 	/**
 	 * Callback for fermentation option
 	 */
 	function fermentation_option() {
 		?>
-		<input type="checkbox" id="beerxml_shortcode_fermentation" name="beerxml_shortcode_fermentation" value="1" <?php checked( get_option( 'beerxml_shortcode_fermentation', 1 ) ); ?> />
+		<input type="checkbox" id="beerxml_shortcode_fermentation" name="beerxml_shortcode_fermentation" value="1" <?php checked( get_option( 'beerxml_shortcode_fermentation', 0 ) ); ?> />
 		<?php
 	}
 }
