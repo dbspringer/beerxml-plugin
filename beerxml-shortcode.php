@@ -4,9 +4,10 @@ Plugin Name: BeerXML Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert/display beer recipes by linking to a BeerXML document.
 Author: Derek Springer
-Version: 0.3.2
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
+Version: 0.4
 License: GPL2 or later
+Text Domain: beerxml-shortcode
 */
 
 /**
@@ -57,21 +58,21 @@ class BeerXML_Shortcode {
 	 */
 	function beer_style() {
 		$labels = array(
-			'name'                       => __( 'Beer Styles' ),
-			'singular_name'              => __( 'Beer Style' ),
-			'menu_name'                  => __( 'Beer Style' ),
-			'all_items'                  => __( 'All Beer Styles' ),
-			'parent_item'                => __( 'Parent Beer Style' ),
-			'parent_item_colon'          => __( 'Parent Beer Style:' ),
-			'new_item_name'              => __( 'New Beer Style Name' ),
-			'add_new_item'               => __( 'Add New Beer Style' ),
-			'edit_item'                  => __( 'Edit Beer Style' ),
-			'update_item'                => __( 'Update Beer Style' ),
-			'separate_items_with_commas' => __( 'Separate beer styles with commas' ),
-			'search_items'               => __( 'Search Beer Styles' ),
-			'add_or_remove_items'        => __( 'Add or remove beer styles' ),
-			'choose_from_most_used'      => __( 'Choose from the most used beer styles' ),
-			'not_found'                  => __( 'Not Found' ),
+			'name'                       => __( 'Beer Styles', 'beerxml-shortcode' ),
+			'singular_name'              => __( 'Beer Style', 'beerxml-shortcode' ),
+			'menu_name'                  => __( 'Beer Style', 'beerxml-shortcode' ),
+			'all_items'                  => __( 'All Beer Styles', 'beerxml-shortcode' ),
+			'parent_item'                => __( 'Parent Beer Style', 'beerxml-shortcode' ),
+			'parent_item_colon'          => __( 'Parent Beer Style:', 'beerxml-shortcode' ),
+			'new_item_name'              => __( 'New Beer Style Name', 'beerxml-shortcode' ),
+			'add_new_item'               => __( 'Add New Beer Style', 'beerxml-shortcode' ),
+			'edit_item'                  => __( 'Edit Beer Style', 'beerxml-shortcode' ),
+			'update_item'                => __( 'Update Beer Style', 'beerxml-shortcode' ),
+			'separate_items_with_commas' => __( 'Separate beer styles with commas', 'beerxml-shortcode' ),
+			'search_items'               => __( 'Search Beer Styles', 'beerxml-shortcode' ),
+			'add_or_remove_items'        => __( 'Add or remove beer styles', 'beerxml-shortcode' ),
+			'choose_from_most_used'      => __( 'Choose from the most used beer styles', 'beerxml-shortcode' ),
+			'not_found'                  => __( 'Not Found', 'beerxml-shortcode' ),
 		);
 
 		$args = array(
@@ -449,7 +450,7 @@ HTML;
 		$carb_range = round( $style->carb_min, 1 ) . ' - ' . round( $style->carb_max, 1 );
 		$abv_range = round( $style->abv_min, 1 ) . ' - ' . round( $style->abv_max, 1 );
 
-		if ( !term_exists( $style->name, 'beer_style' ) ) {
+		if ( ! term_exists( $style->name, 'beer_style' ) ) {
 			wp_insert_term( $style->name, 'beer_style' );
 		}
 
@@ -457,17 +458,14 @@ HTML;
 
 		$catlist = get_the_terms( $post->ID, 'beer_style' );
 		$catlist = array_values( $catlist );
-
-		if ( $catlist && !is_wp_error( $catlist ) ) :
+		if ( $catlist && ! is_wp_error( $catlist ) ) {
 			$link = get_term_link( $catlist[0]->term_id, 'beer_style' );
-			$name = $catlist[0]->name;
-
-			$catname = '<a href="'.$link.'">'.$name.'</a>';
-		endif;
+			$catname = "<a href='{$link}'>{$catlist[0]->name}</a>";
+		}
 
 		return <<<STYLE
 		<tr>
-			<td>{$catname}</td>
+			<td>$catname</td>
 			<td>$category</td>
 			<td>$og_range</td>
 			<td>$fg_range</td>
