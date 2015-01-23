@@ -21,7 +21,14 @@ A shortcode for linking to beer recipes.
 
 It follows the basic format of:
 
-[beerxml recipe={URL} metric=true|false download=true|false style=true|false cache=-1|{seconds to cache}]
+[beerxml
+	recipe={URL}
+	metric=true|false
+	download=true|false
+	style=true|false
+	mash=true|false
+	fermentation=true|false
+	cache=-1|{seconds to cache}]
 
 Please note: metric, download, style, and cache are optional values and have the following defaults:
 
@@ -29,6 +36,8 @@ Please note: metric, download, style, and cache are optional values and have the
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache and sets value to 0
 * download = true
 * style = true
+* mash = false
+* fermentation = false
 
 == Installation ==
 
@@ -46,6 +55,7 @@ Please note: metric, download, style, and cache are optional values and have the
 = 0.4 =
 
 * Custom taxonomy for the beer style. Creates an archive of all beers added for each style with link to the list of beers for each style.
+* Added mash and fermentation details, defaulted to off. To include add mash=true or fermentation=true to shortcode or update the settings in the admin menu.
 
 = 0.3.2 =
 
