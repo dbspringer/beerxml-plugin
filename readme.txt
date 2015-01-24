@@ -54,8 +54,10 @@ Please note: metric, download, style, and cache are optional values and have the
 
 = 0.4 =
 
-* Custom taxonomy for the beer style. Creates an archive of all beers added for each style with link to the list of beers for each style.
-* Added mash and fermentation details, defaulted to off. To include add mash=true or fermentation=true to shortcode or update the settings in the admin menu.
+Tom Sawyer edition: thanks to [ksolomon](https://github.com/ksolomon) and [jksnetwork](https://github.com/jksnetwork) for their pull requests.
+
+* Custom taxonomy for the beer style. Creates an archive of all beers added for each style with link to the list of beers for each style. @[ksolomon](https://github.com/dbspringer/beerxml-plugin/pull/5)
+* Added mash and fermentation details, defaulted to off. To include add mash=true or fermentation=true to shortcode or update the settings in the admin menu. @[jksnetwork](https://github.com/dbspringer/beerxml-plugin/pull/6)
 
 = 0.3.2 =
 
@@ -87,11 +89,3 @@ Please note: metric, download, style, and cache are optional values and have the
 = 0.1 =
 
 * First cut, allows basic display of details, fermentables, hops, and yeast information in U.S. or metric units.
-
-== TODO ==
-
-Here's some stuff that would be nice to add in the near future:
-
-* Custom CSS definition.
-* Auto unit select.
-* Quick unit select.
