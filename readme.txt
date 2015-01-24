@@ -8,13 +8,13 @@ Stable tag: 0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Automatically insert/display beer recipes by linking to a BeerXML document.
+Automatically insert and display beer recipes by linking to a BeerXML document.
 
 == Description ==
 
-A shortcode for linking to beer recipes.
+A shortcode for displaying beer recipes.
 
-* Link to a BeerXML document to display recipe details, style details, fermentables, hops, miscs, yeast, and notes.
+* Link to a BeerXML document to display recipe details, style details, fermentables, hops, miscs, yeast, mash steps, fermentation schedule, and notes.
 * Allows you to easily switch between U.S. & Metric measurements.
 * Control if & how long recipe is cached.
 * Allow readers to download the recipe directly.
