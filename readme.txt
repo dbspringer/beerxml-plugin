@@ -30,7 +30,7 @@ It follows the basic format of:
 	fermentation=true|false
 	cache=-1|{seconds to cache}]
 
-Please note: metric, download, style, and cache are optional values and have the following defaults:
+Please note all options (minus recipe) are optional and have the following defaults:
 
 * metric = false
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache and sets value to 0
