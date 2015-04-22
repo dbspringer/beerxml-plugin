@@ -190,3 +190,54 @@ class BeerXML_Admin {
 
 // init admin
 new BeerXML_Admin();
+
+// Shortcake interface
+if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
+	shortcode_ui_register_for_shortcode(
+		'beerxml',
+		array(
+			'label'         => __( 'BeerXML', 'beerxml-shortcode' ),
+			'listItemImage' => 'dashicons-media-text',
+			'attrs'         => array(
+				array(
+					'label'       => __( 'Document URL.', 'beerxml-shortcode' ),
+					'attr'        => 'recipe',
+					'type'        => 'url',
+					'placeholder' => 'http://www.example.com/path/recipe.xml',
+					'description' => __( 'Required. BeerXML document URL.', 'beerxml-shortcode' ),
+				),
+				array(
+					'label'       => __( 'Use Metric?', 'beerxml-shortcode' ),
+					'attr'        => 'metric',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include download link?', 'beerxml-shortcode' ),
+					'attr'        => 'download',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include style guide?', 'beerxml-shortcode' ),
+					'attr'        => 'style',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include mash steps?', 'beerxml-shortcode' ),
+					'attr'        => 'mash',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include fermentation details?', 'beerxml-shortcode' ),
+					'attr'        => 'fermentation',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Seconds to cache recipe.', 'beerxml-shortcode' ),
+					'attr'        => 'cache',
+					'type'        => 'number',
+					'placeholder' => '43200',
+				),
+			),
+		)
+	);
+}

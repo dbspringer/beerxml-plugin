@@ -3,8 +3,8 @@ Contributors: derekspringer, zarathos
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
-Tested up to: 4.1
-Stable tag: 0.4
+Tested up to: 4.2
+Stable tag: 0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Automatically insert and display beer recipes by linking to a BeerXML document.
 
 == Description ==
 
-A shortcode for displaying beer recipes.
+A shortcode for displaying beer recipes. Now with [Shortcake (Shortcode UI)](https://wordpress.org/plugins/shortcode-ui/) integration!
 
 * Link to a BeerXML document to display recipe details, style details, fermentables, hops, miscs, yeast, mash steps, fermentation schedule, and notes.
 * Allows you to easily switch between U.S. & Metric measurements.
@@ -49,8 +49,15 @@ Please note all options (minus recipe) are optional and have the following defau
 
 1. BeerXML recipe displayed in the twenty eleven theme.
 2. Inserting the shortcode into a post.
+3. Insert Post Element option.
+4. Insert Post Element details.
 
 == Changelog ==
+
+= 0.5 =
+
+* [Shortcake (Shortcode UI)](https://wordpress.org/plugins/shortcode-ui/) integration. When Shortcake is installed you will now be able to insert recipes via the Add Media->Insert Post Element option. Additionally, the BeerXML shortcode will now render in the visual editor.
+* Moved wp_set_object_terms for post to outside build_style function. Beer Style should now be set for the post even if you choose not to display beer style details.
 
 = 0.4 =
 

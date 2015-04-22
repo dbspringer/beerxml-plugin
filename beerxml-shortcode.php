@@ -2,10 +2,10 @@
 /*
 Plugin Name: BeerXML Shortcode
 Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
-Description: Automatically insert and display beer recipes by linking to a BeerXML document.
+Description: Automatically insert and display beer recipes by linking to a BeerXML document. Now with <a href="https://wordpress.org/plugins/shortcode-ui/">Shortcake</a> integration!
 Author: Derek Springer
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
-Version: 0.4
+Version: 0.5
 License: GPL2 or later
 Text Domain: beerxml-shortcode
 */
@@ -33,19 +33,21 @@ class BeerXML_Shortcode {
 			false,
 			dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
-		if ( ! defined( 'BEERXML_URL' ) )
+		if ( ! defined( 'BEERXML_URL' ) ) {
 			define( 'BEERXML_URL', plugin_dir_url( __FILE__ ) );
+		}
 
-		if ( ! defined( 'BEERXML_PATH' ) )
+		if ( ! defined( 'BEERXML_PATH' ) ) {
 			define( 'BEERXML_PATH', plugin_dir_path( __FILE__ ) );
+		}
 
-		if ( ! defined( 'BEERXML_BASENAME' ) )
+		if ( ! defined( 'BEERXML_BASENAME' ) ) {
 			define( 'BEERXML_BASENAME', plugin_basename( __FILE__ ) );
+		}
 
 		require_once( BEERXML_PATH . '/includes/mime.php' );
 		if ( is_admin() ) {
 			require_once( BEERXML_PATH . '/includes/admin.php' );
-			return;
 		}
 
 		require_once( BEERXML_PATH . '/includes/classes.php' );
@@ -143,7 +145,7 @@ class BeerXML_Shortcode {
 		$recipe_id = "beerxml_shortcode_recipe-{$post->ID}_{$recipe_filename}";
 
 		$cache  = intval( esc_attr( $cache ) );
-		if ( -1 == $cache ) { // clear cache if set to -1
+		if ( is_admin() || -1 == $cache ) { // clear cache if set to -1
 			delete_transient( $recipe_id );
 			$cache = 0;
 		}
@@ -221,6 +223,13 @@ DETAILS;
 		 **************/
 		$style_details = '';
 		$t_name = __( 'Name', 'beerxml-shortcode' );
+		if ( ! empty( $beer_xml->recipes[0]->style ) ) {
+			if ( ! term_exists( $beer_xml->recipes[0]->style->name, 'beer_style' ) ) {
+				wp_insert_term( $beer_xml->recipes[0]->style->name, 'beer_style' );
+			}
+
+			wp_set_object_terms( $post->ID, $beer_xml->recipes[0]->style->name, 'beer_style' );
+		}
 
 		if ( $style && $beer_xml->recipes[0]->style ) {
 			$t_style = __( 'Style Details', 'beerxml-shortcode' );
@@ -533,12 +542,6 @@ HTML;
 		$carb_range = round( $style->carb_min, 1 ) . ' - ' . round( $style->carb_max, 1 );
 		$abv_range = round( $style->abv_min, 1 ) . ' - ' . round( $style->abv_max, 1 );
 
-		if ( ! term_exists( $style->name, 'beer_style' ) ) {
-			wp_insert_term( $style->name, 'beer_style' );
-		}
-
-		wp_set_object_terms( $post->ID, $style->name, 'beer_style' );
-
 		$catlist = get_the_terms( $post->ID, 'beer_style' );
 		$catlist = array_values( $catlist );
 		if ( $catlist && ! is_wp_error( $catlist ) ) {
@@ -680,11 +683,11 @@ MISC;
 		}
 
 		$yeast->attenuation = round( $yeast->attenuation );
-
+		$product_id = ! empty( $yeast->product_id ) ? " ({$yeast->product_id})" : '';
 		return <<<YEAST
 		<tr>
-			<td>$yeast->name ({$yeast->product_id})</td>
-			<td>$yeast->laboratory</td>
+			<td>{$yeast->name}$product_id</td>
+			<td>{$yeast->laboratory}</td>
 			<td>{$yeast->attenuation}%</td>
 			<td>{$yeast->min_temperature}°$t_temp - {$yeast->max_temperature}°$t_temp</td>
 		</tr>
