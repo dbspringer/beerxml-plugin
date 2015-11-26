@@ -4,7 +4,7 @@ Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
 Tested up to: 4.4
-Stable tag: 0.6
+Stable tag: 0.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,10 @@ Please note all options (minus recipe) are optional and have the following defau
 4. Insert Post Element details.
 
 == Changelog ==
+
+= 0.6.1 =
+
+* Fix for weights improperly swapping at exactly 1 lb/kg.
 
 = 0.6 =
 

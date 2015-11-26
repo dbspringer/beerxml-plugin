@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert and display beer recipes by linking to a BeerXML document. Now with <a href="https://wordpress.org/plugins/shortcode-ui/">Shortcake</a> integration!
 Author: Derek Springer
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
-Version: 0.6
+Version: 0.6.1
 License: GPL2 or later
 Text Domain: beerxml-shortcode
 */
@@ -572,7 +572,7 @@ STYLE;
 	static function build_fermentable( $fermentable, $total, $metric = false ) {
 		$percentage = round( $fermentable->percentage( $total ), 2 );
 		if ( $metric ) {
-			if ( $fermentable->amount < 1.0 ) {
+			if ( $fermentable->amount < 0.9995 ) {
 				$fermentable->amount = round( $fermentable->amount * 1000, 1 );
 				$t_weight = __( 'g', 'beerxml-shortcode' );
 			} else {
@@ -581,7 +581,7 @@ STYLE;
 			}
 		} else {
 			$fermentable->amount = $fermentable->amount * 2.20462;
-			if ( $fermentable->amount < 1.0 ) {
+			if ( $fermentable->amount < 0.995 ) {
 				$fermentable->amount = round( $fermentable->amount * 16, 2 );
 				$t_weight = __( 'oz', 'beerxml-shortcode' );
 			} else {
@@ -607,7 +607,7 @@ FERMENTABLE;
 	 */
 	static function build_hop( $hop, $metric = false ) {
 		if ( $metric ) {
-			if ( $hop->amount < 1.0 ) {
+			if ( $hop->amount < 0.9995 ) {
 				$hop->amount = round( $hop->amount * 1000, 1 );
 				$t_weight = __( 'g', 'beerxml-shortcode' );
 			} else {
@@ -616,7 +616,7 @@ FERMENTABLE;
 			}
 		} else {
 			$hop->amount = $hop->amount * 2.20462;
-			if ( $hop->amount < 1.0 ) {
+			if ( $hop->amount < 0.995 ) {
 				$hop->amount = round( $hop->amount * 16, 2 );
 				$t_weight = __( 'oz', 'beerxml-shortcode' );
 			} else {
