@@ -58,7 +58,7 @@ Please note all options (minus recipe) are optional and have the following defau
 
 * Weight will display oz if < 1 lb or g if < 1 kg.
 * Set mash schedule to default on.
-* Updated 'Tested up to.'
+* Updated 'Tested up to' to 4.4.
 
 = 0.5 =
 

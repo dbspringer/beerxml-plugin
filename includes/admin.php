@@ -174,7 +174,7 @@ class BeerXML_Admin {
 	 */
 	function mash_option() {
 		?>
-		<input type="checkbox" id="beerxml_shortcode_mash" name="beerxml_shortcode_mash" value="1" <?php checked( get_option( 'beerxml_shortcode_mash', 0 ) ); ?> />
+		<input type="checkbox" id="beerxml_shortcode_mash" name="beerxml_shortcode_mash" value="1" <?php checked( get_option( 'beerxml_shortcode_mash', 1 ) ); ?> />
 		<?php
 	}
 
