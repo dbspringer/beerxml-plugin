@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert and display beer recipes by linking to a BeerXML document. Now with <a href="https://wordpress.org/plugins/shortcode-ui/">Shortcake</a> integration!
 Author: Derek Springer
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
-Version: 0.5
+Version: 0.6
 License: GPL2 or later
 Text Domain: beerxml-shortcode
 */
@@ -132,7 +132,7 @@ class BeerXML_Shortcode {
 			'metric'       => 2 == get_option( 'beerxml_shortcode_units', 1 ), // units
 			'download'     => get_option( 'beerxml_shortcode_download', 1 ), // include download link
 			'style'        => get_option( 'beerxml_shortcode_style', 1 ), // include style details
-			'mash'         => get_option( 'beerxml_shortcode_mash', 0 ), // include mash details
+			'mash'         => get_option( 'beerxml_shortcode_mash', 1 ), // include mash details
 			'fermentation' => get_option( 'beerxml_shortcode_fermentation', 0 ), // include fermentation details
 		), $atts ) );
 
@@ -572,11 +572,22 @@ STYLE;
 	static function build_fermentable( $fermentable, $total, $metric = false ) {
 		$percentage = round( $fermentable->percentage( $total ), 2 );
 		if ( $metric ) {
-			$fermentable->amount = round( $fermentable->amount, 3 );
-			$t_weight = __( 'kg', 'beerxml-shortcode' );
+			if ( $fermentable->amount < 1.0 ) {
+				$fermentable->amount = round( $fermentable->amount * 1000, 1 );
+				$t_weight = __( 'g', 'beerxml-shortcode' );
+			} else {
+				$fermentable->amount = round( $fermentable->amount, 3 );
+				$t_weight = __( 'kg', 'beerxml-shortcode' );
+			}
 		} else {
-			$fermentable->amount = round( $fermentable->amount * 2.20462, 3 );
-			$t_weight = __( 'lbs', 'beerxml-shortcode' );
+			$fermentable->amount = $fermentable->amount * 2.20462;
+			if ( $fermentable->amount < 1.0 ) {
+				$fermentable->amount = round( $fermentable->amount * 16, 2 );
+				$t_weight = __( 'oz', 'beerxml-shortcode' );
+			} else {
+				$fermentable->amount = round( $fermentable->amount, 3 );
+				$t_weight = __( 'lbs', 'beerxml-shortcode' );
+			}
 		}
 
 		return <<<FERMENTABLE
@@ -596,11 +607,22 @@ FERMENTABLE;
 	 */
 	static function build_hop( $hop, $metric = false ) {
 		if ( $metric ) {
-			$hop->amount = round( $hop->amount * 1000, 1 );
-			$t_weight = __( 'g', 'beerxml-shortcode' );
+			if ( $hop->amount < 1.0 ) {
+				$hop->amount = round( $hop->amount * 1000, 1 );
+				$t_weight = __( 'g', 'beerxml-shortcode' );
+			} else {
+				$hop->amount = round( $hop->amount, 3 );
+				$t_weight = __( 'kg', 'beerxml-shortcode' );
+			}
 		} else {
-			$hop->amount = round( $hop->amount * 35.274, 2 );
-			$t_weight = __( 'oz', 'beerxml-shortcode' );
+			$hop->amount = $hop->amount * 2.20462;
+			if ( $hop->amount < 1.0 ) {
+				$hop->amount = round( $hop->amount * 16, 2 );
+				$t_weight = __( 'oz', 'beerxml-shortcode' );
+			} else {
+				$hop->amount = round( $hop->amount, 3 );
+				$t_weight = __( 'lbs', 'beerxml-shortcode' );
+			}
 		}
 
 		if ( $hop->time >= 1440 ) {

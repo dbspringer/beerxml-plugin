@@ -3,8 +3,8 @@ Contributors: derekspringer, zarathos
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
-Tested up to: 4.2
-Stable tag: 0.5
+Tested up to: 4.4
+Stable tag: 0.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,7 @@ Please note all options (minus recipe) are optional and have the following defau
 * cache = 12 hours (60 x 60 x 12 seconds), -1 kills the cache and sets value to 0
 * download = true
 * style = true
-* mash = false
+* mash = true
 * fermentation = false
 
 == Installation ==
@@ -53,6 +53,12 @@ Please note all options (minus recipe) are optional and have the following defau
 4. Insert Post Element details.
 
 == Changelog ==
+
+= 0.6 =
+
+* Weight will display oz if < 1 lb or g if < 1 kg.
+* Set mash schedule to default on.
+* Updated 'Tested up to.'
 
 = 0.5 =
 
