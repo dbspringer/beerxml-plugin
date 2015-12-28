@@ -28,6 +28,9 @@ It follows the basic format of:
 	style=true|false
 	mash=true|false
 	fermentation=true|false
+	mhop=true|false
+	misc=true|false
+	actuals=true|false
 	cache=-1|{seconds to cache}]
 
 Please note all options (minus recipe) are optional and have the following defaults:
@@ -37,7 +40,10 @@ Please note all options (minus recipe) are optional and have the following defau
 * download = true
 * style = true
 * mash = true
+* misc = true
+* actuals = true
 * fermentation = false
+* mhop = false
 
 == Installation ==
 
