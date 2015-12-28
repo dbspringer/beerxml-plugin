@@ -63,6 +63,7 @@ Please note all options (minus recipe) are optional and have the following defau
 = 0.7 =
 
 [Brülosopher's](http://brulosophy.com/) Baby
+
 * Added 'mhop' flag to display hops in metric after a request by Brülosopher :)
 * Made Miscs section optional using misc=true|false option (defaults to on).
 * Added Actuals row to Details table using actuals=true|false (defaults to on).
