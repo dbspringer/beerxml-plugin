@@ -237,7 +237,7 @@ class BeerXML_Admin {
 	 */
 	function actuals_option() {
 		?>
-		<input type="checkbox" id="beerxml_shortcode_actuals" name="beerxml_shortcode_actuals" value="1" <?php checked( get_option( 'beerxml_shortcode_actuals', 0 ) ); ?> />
+		<input type="checkbox" id="beerxml_shortcode_actuals" name="beerxml_shortcode_actuals" value="1" <?php checked( get_option( 'beerxml_shortcode_actuals', 1 ) ); ?> />
 		<?php
 	}
 }
