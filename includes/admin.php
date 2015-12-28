@@ -65,6 +65,9 @@ class BeerXML_Admin {
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_style', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_mash', 'absint' );
 		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_fermentation', 'absint' );
+		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_misc', 'absint' );
+		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_mhop', 'absint' );
+		register_setting( 'beerxml_shortcode_group', 'beerxml_shortcode_actuals', 'absint' );
 
 		add_settings_section(
 			'beerxml_shortcode_section',
@@ -82,9 +85,9 @@ class BeerXML_Admin {
 		);
 
 		add_settings_field(
-			'beerxml_shortcode_cache',
-			__( 'Cache duration (seconds)', 'beerxml-shortcode' ),
-			array( $this, 'cache_option' ),
+			'beerxml_shortcode_mhop',
+			__( 'Metric hops', 'beerxml-shortcode' ),
+			array( $this, 'mhop_option' ),
 			'beerxml-shortcode',
 			'beerxml_shortcode_section'
 		);
@@ -114,9 +117,33 @@ class BeerXML_Admin {
 		);
 
 		add_settings_field(
+			'beerxml_shortcode_misc',
+			__( 'Include miscellaneous ingredients', 'beerxml-shortcode' ),
+			array( $this, 'misc_option' ),
+			'beerxml-shortcode',
+			'beerxml_shortcode_section'
+		);
+
+		add_settings_field(
 			'beerxml_shortcode_fermentation',
 			__( 'Include fermentation details', 'beerxml-shortcode' ),
 			array( $this, 'fermentation_option' ),
+			'beerxml-shortcode',
+			'beerxml_shortcode_section'
+		);
+
+		add_settings_field(
+			'beerxml_shortcode_actuals',
+			__( 'Include recipe actuals', 'beerxml-shortcode' ),
+			array( $this, 'actuals_option' ),
+			'beerxml-shortcode',
+			'beerxml_shortcode_section'
+		);
+
+		add_settings_field(
+			'beerxml_shortcode_cache',
+			__( 'Cache duration (seconds)', 'beerxml-shortcode' ),
+			array( $this, 'cache_option' ),
 			'beerxml-shortcode',
 			'beerxml_shortcode_section'
 		);
@@ -186,6 +213,33 @@ class BeerXML_Admin {
 		<input type="checkbox" id="beerxml_shortcode_fermentation" name="beerxml_shortcode_fermentation" value="1" <?php checked( get_option( 'beerxml_shortcode_fermentation', 0 ) ); ?> />
 		<?php
 	}
+
+	/**
+	 * Callback for metric hops option
+	 */
+	function mhop_option() {
+		?>
+		<input type="checkbox" id="beerxml_shortcode_mhop" name="beerxml_shortcode_mhop" value="1" <?php checked( get_option( 'beerxml_shortcode_mhop', 0 ) ); ?> />
+		<?php
+	}
+
+	/**
+	 * Callback for misc option
+	 */
+	function misc_option() {
+		?>
+		<input type="checkbox" id="beerxml_shortcode_mash" name="beerxml_shortcode_misc" value="1" <?php checked( get_option( 'beerxml_shortcode_misc', 1 ) ); ?> />
+		<?php
+	}
+
+	/**
+	 * Callback for actuals option
+	 */
+	function actuals_option() {
+		?>
+		<input type="checkbox" id="beerxml_shortcode_actuals" name="beerxml_shortcode_actuals" value="1" <?php checked( get_option( 'beerxml_shortcode_actuals', 0 ) ); ?> />
+		<?php
+	}
 }
 
 // init admin
@@ -205,10 +259,16 @@ if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 					'type'        => 'url',
 					'placeholder' => 'http://www.example.com/path/recipe.xml',
 					'description' => __( 'Required. BeerXML document URL.', 'beerxml-shortcode' ),
+					'meta'        => array( 'size' => 100 ),
 				),
 				array(
 					'label'       => __( 'Use Metric?', 'beerxml-shortcode' ),
 					'attr'        => 'metric',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Use Metric for hops?', 'beerxml-shortcode' ),
+					'attr'        => 'mhop',
 					'type'        => 'checkbox',
 				),
 				array(
@@ -224,6 +284,16 @@ if ( function_exists( 'shortcode_ui_register_for_shortcode' ) ) {
 				array(
 					'label'       => __( 'Include mash steps?', 'beerxml-shortcode' ),
 					'attr'        => 'mash',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include miscellaneous ingredients?', 'beerxml-shortcode' ),
+					'attr'        => 'misc',
+					'type'        => 'checkbox',
+				),
+				array(
+					'label'       => __( 'Include recipe actuals?', 'beerxml-shortcode' ),
+					'attr'        => 'actuals',
 					'type'        => 'checkbox',
 				),
 				array(

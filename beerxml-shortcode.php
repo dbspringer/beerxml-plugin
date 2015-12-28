@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert and display beer recipes by linking to a BeerXML document. Now with <a href="https://wordpress.org/plugins/shortcode-ui/">Shortcake</a> integration!
 Author: Derek Springer
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
-Version: 0.6.1
+Version: 0.7
 License: GPL2 or later
 Text Domain: beerxml-shortcode
 */
@@ -133,7 +133,10 @@ class BeerXML_Shortcode {
 			'download'     => get_option( 'beerxml_shortcode_download', 1 ), // include download link
 			'style'        => get_option( 'beerxml_shortcode_style', 1 ), // include style details
 			'mash'         => get_option( 'beerxml_shortcode_mash', 1 ), // include mash details
+			'misc'         => get_option( 'beerxml_shortcode_misc', 1 ), // include miscs details
+			'actuals'      => get_option( 'beerxml_shortcode_actuals', 1 ), // include actuals in recipe details
 			'fermentation' => get_option( 'beerxml_shortcode_fermentation', 0 ), // include fermentation details
+			'mhop'         => get_option( 'beerxml_shortcode_mhop', 0 ), // display hops in metric
 		), $atts ) );
 
 		if ( ! isset( $recipe ) ) {
@@ -155,6 +158,9 @@ class BeerXML_Shortcode {
 		$style        = filter_var( esc_attr( $style ), FILTER_VALIDATE_BOOLEAN );
 		$mash         = filter_var( esc_attr( $mash ), FILTER_VALIDATE_BOOLEAN );
 		$fermentation = filter_var( esc_attr( $fermentation ), FILTER_VALIDATE_BOOLEAN );
+		$misc         = filter_var( esc_attr( $misc ), FILTER_VALIDATE_BOOLEAN );
+		$actuals      = filter_var( esc_attr( $actuals ), FILTER_VALIDATE_BOOLEAN );
+		$mhop         = filter_var( esc_attr( $mhop ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
 			$beer_xml = new BeerXML( $recipe );
@@ -188,6 +194,28 @@ class BeerXML_Shortcode {
 		$t_og      = __( 'Est. OG', 'beerxml-shortcode' );
 		$t_fg      = __( 'Est. FG', 'beerxml-shortcode' );
 		$t_abv     = __( 'ABV', 'beerxml-shortcode' );
+		$t_actuals = __( 'Actuals', 'beerxml-shortcode' );
+
+		$act = '';
+		if ( $actuals ) {
+			$og = round( $beer_xml->recipes[0]->og, 3 );
+			$fg = round( $beer_xml->recipes[0]->fg, 3 );
+			$act = <<<ACTUALS
+			<tr class='beerxml-actuals'>
+				<td colspan="3"></td>
+				<td><strong>$t_actuals</strong></td>
+				<td>$og</td>
+				<td>$fg</td>
+				<td>{$beer_xml->recipes[0]->abv}</td>
+			</tr>
+ACTUALS;
+		}
+
+		// cleanup any extra text the 'est' might add
+		$est_og = preg_split( '/\s/', trim( $beer_xml->recipes[0]->est_og ) );
+		$est_og = $est_og[0];
+		$est_fg = preg_split( '/\s/', trim( $beer_xml->recipes[0]->est_fg ) );
+		$est_fg = $est_fg[0];
 		$details = <<<DETAILS
 		<div class='beerxml-details'>
 			<h3>$t_details</h3>
@@ -209,10 +237,11 @@ class BeerXML_Shortcode {
 						<td>$btime $t_time</td>
 						<td>{$beer_xml->recipes[0]->ibu}</td>
 						<td>{$beer_xml->recipes[0]->est_color}</td>
-						<td>{$beer_xml->recipes[0]->est_og}</td>
-						<td>{$beer_xml->recipes[0]->est_fg}</td>
+						<td>$est_og</td>
+						<td>$est_fg</td>
 						<td>{$beer_xml->recipes[0]->est_abv}</td>
 					</tr>
+					$act
 				</tbody>
 			</table>
 		</div>
@@ -299,7 +328,7 @@ FERMENTABLES;
 		$hops = '';
 		if ( $beer_xml->recipes[0]->hops ) {
 			foreach ( $beer_xml->recipes[0]->hops as $hop ) {
-				$hops .= $this->build_hop( $hop, $metric );
+				$hops .= $this->build_hop( $hop, $metric || $mhop );
 			}
 
 			$t_hops  = __( 'Hops', 'beerxml-shortcode' );
@@ -333,7 +362,7 @@ HOPS;
 		 * Miscs
 		 **************/
 		$miscs = '';
-		if ( $beer_xml->recipes[0]->miscs ) {
+		if ( $misc && $beer_xml->recipes[0]->miscs ) {
 			foreach ( $beer_xml->recipes[0]->miscs as $misc ) {
 				$miscs .= $this->build_misc( $misc, $metric );
 			}

@@ -4,7 +4,7 @@ Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
 Tested up to: 4.4
-Stable tag: 0.6.1
+Stable tag: 0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,14 @@ Please note all options (minus recipe) are optional and have the following defau
 4. Insert Post Element details.
 
 == Changelog ==
+
+= 0.7 =
+
+[Brülosopher's](http://brulosophy.com/) Baby
+* Added 'mhop' flag to display hops in metric after a request by Brülosopher :)
+* Made Miscs section optional using misc=true|false option (defaults to on).
+* Added Actuals row to Details table using actuals=true|false (defaults to on).
+* Extended length of Document URL field in Shorcake UI.
 
 = 0.6.1 =
 
