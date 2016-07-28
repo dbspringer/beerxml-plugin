@@ -67,7 +67,7 @@ Please note all options (minus recipe) are optional and have the following defau
 * Added 'mhop' flag to display hops in metric after a request by Brülosopher :)
 * Made Miscs section optional using misc=true|false option (defaults to on).
 * Added Actuals row to Details table using actuals=true|false (defaults to on).
-* Extended length of Document URL field in Shorcake UI.
+* Extended length of Document URL field in Shortcake UI.
 
 = 0.6.1 =
 
