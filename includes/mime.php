@@ -13,13 +13,13 @@ class BeerXML_Mime {
 	}
 
 	/**
-	 * Add mimes required for the BeerXML documents (currently just text/xml)
+	 * Add mimes required for the BeerXML documents (currently just application/xml)
 	 * @param  array $mimes mime types to filter
 	 * @return array new array of acceptable mimes
 	 */
 	function beerxml_mimes( $mimes ) {
 		if ( ! isset( $mimes['xml'] ) )
-			return array_merge( $mimes, array( 'xml' => 'text/xml' ) );
+			return array_merge( $mimes, array( 'xml' => 'application/xml' ) );
 
 		return $mimes;
 	}

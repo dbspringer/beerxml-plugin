@@ -3,8 +3,8 @@ Contributors: derekspringer, zarathos
 Donate link: http://wordpressfoundation.org/donate/
 Tags: shortcode, beer, beerxml, homebrew, recipe
 Requires at least: 3.4
-Tested up to: 4.7
-Stable tag: 0.7
+Tested up to: 4.8
+Stable tag: 0.7.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,10 @@ Please note all options (minus recipe) are optional and have the following defau
 4. Insert Post Element details.
 
 == Changelog ==
+
+= 0.7.1 =
+
+* Updated XML mime type to avoid blocked XML uploads
 
 = 0.7 =
 
