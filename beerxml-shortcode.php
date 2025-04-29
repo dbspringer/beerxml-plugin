@@ -5,7 +5,7 @@ Plugin URI: http://wordpress.org/extend/plugins/beerxml-shortcode/
 Description: Automatically insert and display beer recipes by linking to a BeerXML document. Now with <a href="https://wordpress.org/plugins/shortcode-ui/">Shortcake</a> integration!
 Author: Derek Springer
 Author URI: http://www.fivebladesbrewing.com/beerxml-plugin-wordpress/
-Version: 0.7.1
+Version: 0.8
 License: GPL2 or later
 Text Domain: beerxml-shortcode
 */
@@ -143,8 +143,12 @@ class BeerXML_Shortcode {
 			$recipe = $atts[0];
 		}
 
-		$recipe = esc_url_raw( $recipe );
-		$recipe_filename = pathinfo( $recipe, PATHINFO_FILENAME );
+		$recipe_loc = filter_var( esc_attr( $recipe ), FILTER_VALIDATE_URL );
+		if ( ! $recipe_loc ) {
+			return '<!-- Error parsing BeerXML document -->';
+		}
+
+		$recipe_filename = pathinfo( $recipe_loc, PATHINFO_FILENAME );
 		$recipe_id = "beerxml_shortcode_recipe-{$post->ID}_{$recipe_filename}";
 
 		$cache  = intval( esc_attr( $cache ) );
@@ -163,7 +167,7 @@ class BeerXML_Shortcode {
 		$mhop         = filter_var( esc_attr( $mhop ), FILTER_VALIDATE_BOOLEAN );
 
 		if ( ! $cache || false === ( $beer_xml = get_transient( $recipe_id ) ) ) {
-			$beer_xml = new BeerXML( $recipe );
+			$beer_xml = new BeerXML( $recipe_loc );
 		} else {
 			// result was in cache, just use that
 			return $beer_xml;
@@ -724,12 +728,12 @@ MISC;
 	 */
 	static function build_yeast( $yeast, $metric = false ) {
 		if ( $metric ) {
-			$yeast->min_temperature = round( $yeast->min_temperature, 2 );
-			$yeast->max_temperature = round( $yeast->max_temperature, 2 );
+			$yeast->min_temperature = round( floatval( $yeast->min_temperature ), 2 );
+			$yeast->max_temperature = round( floatval( $yeast->max_temperature ), 2 );
 			$t_temp = __( 'C', 'beerxml-shortcode' );
 		} else {
-			$yeast->min_temperature = round( ( $yeast->min_temperature * (9/5) ) + 32, 1 );
-			$yeast->max_temperature = round( ( $yeast->max_temperature * (9/5) ) + 32, 1 );
+			$yeast->min_temperature = round( ( floatval( $yeast->min_temperature ) * (9/5) ) + 32, 1 );
+			$yeast->max_temperature = round( ( floatval( $yeast->max_temperature ) * (9/5) ) + 32, 1 );
 			$t_temp = __( 'F', 'beerxml-shortcode' );
 		}
 

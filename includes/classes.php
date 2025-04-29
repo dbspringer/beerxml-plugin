@@ -5,7 +5,7 @@ class BeerXML {
 	public $recipes = array();
 
 	function __construct( $xml_loc ) {
-		$response = wp_remote_get( $xml_loc );
+		$response = wp_safe_remote_get( $xml_loc );
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
 			echo "XML not retrieved: $error_message";
@@ -21,8 +21,9 @@ class BeerXML {
 		libxml_use_internal_errors( true );
 		$xml = wp_remote_retrieve_body( $response );
 		$xrecipes = simplexml_load_string( $xml );
-		if ( ! $xrecipes )
+		if ( ! $xrecipes ) {
 			return;
+		}
 
 		foreach ( $xrecipes->RECIPE as $recipe ) {
 			$this->recipes[] = new BeerXML_Recipe( $recipe );
